@@ -1,7 +1,8 @@
-package com.codewithmosh.store.repositories;
+package com.jparkkennaby.store.repositories;
 
-import com.codewithmosh.store.entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.jparkkennaby.store.entities.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 }
