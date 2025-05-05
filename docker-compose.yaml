@@ -9,7 +9,7 @@ services:
         - ./databases:/databases
         - springboot_mastering_rest_api_development_volume:/var/lib/mysql
       environment:
-        - MYSQL_DATABASE=store
+        - MYSQL_DATABASE=store_api
         - MYSQL_ROOT_PASSWORD=docker_root
         - MYSQL_USER=dbuser
         - MYSQL_PASSWORD=dbpw
