@@ -1,0 +1,36 @@
+version: "3.1"
+
+services:
+    springboot_mastering_rest_api_development_mysql:
+      image: arm64v8/mysql:8.0
+      container_name: springboot_rest_api_development_mysql
+      working_dir: /databases
+      volumes:
+        - ./databases:/databases
+        - springboot_mastering_rest_api_development_volume:/var/lib/mysql
+      environment:
+        - MYSQL_DATABASE=store
+        - MYSQL_ROOT_PASSWORD=docker_root
+        - MYSQL_USER=dbuser
+        - MYSQL_PASSWORD=dbpw
+      ports:
+        - "8306:3306"
+
+    # ideally use mysql-workbench or sequal-pro, neither seem to be aviable in docker/arm64 at the moment
+    springboot_mastering_rest_api_development_adminer:
+      image: adminer:4.17.1   
+      container_name: springboot_mastering_rest_api_development_adminer # mysql gui 
+      environment:
+        ADMINER_DEFAULT_SERVER: springboot_mastering_rest_api_development_mysql
+        ADMINER_DEFAULT_USERNAME: root
+        ADMINER_DEFAULT_PASSWORD: docker_root
+        # ADMINER_DEFAULT_DB: store 
+        
+      ports:
+      - "8090:8080"
+      depends_on:
+        - springboot_mastering_rest_api_development_mysql
+
+volumes:
+    springboot_mastering_rest_api_development_volume:
+      driver: local
