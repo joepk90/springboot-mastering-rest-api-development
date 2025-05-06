@@ -1,18 +1,18 @@
 package com.jparkkennaby.store.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 
 @Controller
 public class HomeController {
 
-    @RequestMapping("/")
-    public String index() {
-        return "index.html";
-    }
+    // model is a container for data. we use it to pass data from a controller to a view
 
-    @RequestMapping("/hello")
-    public String sayHello() {
-        return "index.html";
+    @RequestMapping("/")
+    public String index(Model model) {
+        model.addAttribute("name", "Joe");
+        return "index";
     }
 }
