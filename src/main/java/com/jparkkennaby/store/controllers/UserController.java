@@ -1,6 +1,7 @@
 package com.jparkkennaby.store.controllers;
 
 import com.jparkkennaby.store.dtos.UserDto;
+import com.jparkkennaby.store.mappers.UserMapper;
 import com.jparkkennaby.store.repositories.UserRepository;
 
 import lombok.AllArgsConstructor;
@@ -17,13 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 public class UserController {
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     // GetMapping just handles the GET method
     @GetMapping
     public Iterable<UserDto> getAllUsers() {
         return userRepository.findAll()
             .stream()
-            .map(user -> new UserDto(user.getId(), user.getName(), user.getEmail()))
+            .map(userMapper::toDto)
             .toList();
     }
 
@@ -36,7 +38,6 @@ public class UserController {
         }
         
          // return new ResponseEntity<>(user, HttpStatus.OK);
-        var userDto =  new UserDto(user.getId(), user.getName(), user.getEmail());
-         return ResponseEntity.ok(userDto);
+         return ResponseEntity.ok(userMapper.toDto(user));
     }
 }
