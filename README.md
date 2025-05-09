@@ -84,3 +84,26 @@ If we want the application to run migrations against the database automatically 
 ```
 spring.jpa.hibernate.ddl-auto=none # OPTIONS: create, create-drop, validate, update
 ```
+
+### VSCode Java/Maven Compilation Issues
+if `make compile` command does not resolve `java`/`maven` compilcation issues, try cleaning the Java Language Server Workspace through VSCode.
+
+Open the command palette (cmd + shift + p) and run:
+```
+Java: Clean Java Language Server Workspace
+```
+
+
+# Setup Steps 
+Steps to setup the project.
+
+Firstly clean the Java Language Server Workspace through VSCode - See section above ☝️
+
+Then run:
+```
+make install
+make compile
+make dev
+```
+**Note:**
+Let each command complete before running the next. Also the `make dev` command may not work on the first try...
