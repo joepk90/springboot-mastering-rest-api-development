@@ -1,6 +1,6 @@
 package com.jparkkennaby.store.controllers;
 
-import com.jparkkennaby.store.entities.User;
+import com.jparkkennaby.store.dtos.UserDto;
 import com.jparkkennaby.store.repositories.UserRepository;
 
 import lombok.AllArgsConstructor;
@@ -20,12 +20,15 @@ public class UserController {
 
     // GetMapping just handles the GET method
     @GetMapping
-    public Iterable<User> getAllUsers() {
-        return userRepository.findAll();
+    public Iterable<UserDto> getAllUsers() {
+        return userRepository.findAll()
+            .stream()
+            .map(user -> new UserDto(user.getId(), user.getName(), user.getEmail()))
+            .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id) {
+    public ResponseEntity<UserDto> getUser(@PathVariable Long id) {
         var user = userRepository.findById(id).orElse(null);
         if (user == null) {
             // return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -33,6 +36,7 @@ public class UserController {
         }
         
          // return new ResponseEntity<>(user, HttpStatus.OK);
-         return ResponseEntity.ok(user);
+        var userDto =  new UserDto(user.getId(), user.getName(), user.getEmail());
+         return ResponseEntity.ok(userDto);
     }
 }
