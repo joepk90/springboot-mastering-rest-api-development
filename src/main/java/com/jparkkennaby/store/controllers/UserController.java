@@ -27,14 +27,18 @@ public class UserController {
     // GetMapping just handles the GET method
     @GetMapping
     public Iterable<UserDto> getAllUsers(
-        @RequestParam(required = false, defaultValue = "") String sort
+        @RequestParam(
+            required = false,
+            defaultValue = "",
+            name = "sort"
+        ) String sortBy
     ) {
         
         // restrict allowed sort values
-        if (!Set.of("name", "email").contains(sort))
-            sort = "name"; // defult sort paramter = name
+        if (!Set.of("name", "email").contains(sortBy))
+            sortBy = "name"; // defult sort paramter = name
 
-        return userRepository.findAll(Sort.by(sort))
+        return userRepository.findAll(Sort.by(sortBy))
             .stream()
             .map(userMapper::toDto)
             .toList();
