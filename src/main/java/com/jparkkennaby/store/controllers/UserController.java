@@ -6,6 +6,8 @@ import com.jparkkennaby.store.repositories.UserRepository;
 
 import lombok.AllArgsConstructor;
 
+import java.util.Set;
+
 import org.springframework.data.domain.Sort;
 // import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +26,14 @@ public class UserController {
 
     // GetMapping just handles the GET method
     @GetMapping
-    public Iterable<UserDto> getAllUsers(@RequestParam String sort) {
+    public Iterable<UserDto> getAllUsers(
+        @RequestParam(required = false, defaultValue = "") String sort
+    ) {
+        
+        // restrict allowed sort values
+        if (!Set.of("name", "email").contains(sort))
+            sort = "name"; // defult sort paramter = name
+
         return userRepository.findAll(Sort.by(sort))
             .stream()
             .map(userMapper::toDto)
