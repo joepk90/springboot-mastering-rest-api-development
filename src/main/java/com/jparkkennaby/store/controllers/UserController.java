@@ -1,5 +1,6 @@
 package com.jparkkennaby.store.controllers;
 
+import com.jparkkennaby.store.dtos.RegisterUserRequest;
 import com.jparkkennaby.store.dtos.UserDto;
 import com.jparkkennaby.store.mappers.UserMapper;
 import com.jparkkennaby.store.repositories.UserRepository;
@@ -61,7 +62,11 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto createUser(@RequestBody UserDto data) {
-        return data;
+    public UserDto createUser(@RequestBody RegisterUserRequest request) {
+        var user = userMapper.toEntity(request);
+       userRepository.save(user);
+
+       var userDto = userMapper.toDto(user);
+       return userDto;
     }
 }
