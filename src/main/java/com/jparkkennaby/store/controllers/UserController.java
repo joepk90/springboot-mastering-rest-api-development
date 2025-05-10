@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @AllArgsConstructor
@@ -62,11 +63,20 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto createUser(@RequestBody RegisterUserRequest request) {
+    public ResponseEntity<UserDto> createUser(
+        @RequestBody RegisterUserRequest request,
+        UriComponentsBuilder uriBuilder
+        ) {
         var user = userMapper.toEntity(request);
-       userRepository.save(user);
+        userRepository.save(user);
 
-       var userDto = userMapper.toDto(user);
-       return userDto;
+        var userDto = userMapper.toDto(user);
+
+        // works, however does not follow standard REST conventions (returns 200 and no uri)
+        // return ResponseEntity.ok(userDto);
+
+        // created returns a 201 and a URI (where the resource was saved too -see respone headers)
+        var uri = uriBuilder.path("/users/{id}").buildAndExpand(userDto.getId()).toUri();
+        return ResponseEntity.created(uri).body(userDto);
     }
 }
