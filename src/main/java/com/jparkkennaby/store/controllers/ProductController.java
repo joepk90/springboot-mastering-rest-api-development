@@ -5,15 +5,13 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jparkkennaby.store.dtos.ProductDto;
-import com.jparkkennaby.store.dtos.UserDto;
+
 import com.jparkkennaby.store.entities.Product;
 import com.jparkkennaby.store.mappers.ProductMapper;
 import com.jparkkennaby.store.repositories.ProductRepository;
 
 import java.util.List;
-import java.util.Set;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +34,7 @@ public class ProductController {
         if (categoryId != null) {
             products = productRepository.findByCategoryId(categoryId);
         } else {
-            products = productRepository.findAll();
+            products = productRepository.findAllWithCategory();
         }
         
         return products
