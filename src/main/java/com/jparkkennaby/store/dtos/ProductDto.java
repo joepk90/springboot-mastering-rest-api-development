@@ -1,11 +1,9 @@
 package com.jparkkennaby.store.dtos;
 
 import java.math.BigDecimal;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
-@AllArgsConstructor
+@Data
 public class ProductDto {
     private Long id;
     private String name;

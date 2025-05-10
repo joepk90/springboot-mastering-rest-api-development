@@ -6,9 +6,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jparkkennaby.store.dtos.ProductDto;
 import com.jparkkennaby.store.dtos.UserDto;
+import com.jparkkennaby.store.entities.Product;
 import com.jparkkennaby.store.mappers.ProductMapper;
 import com.jparkkennaby.store.repositories.ProductRepository;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.domain.Sort;
@@ -26,15 +28,18 @@ public class ProductController {
     private final ProductMapper productMapper;
     
     @GetMapping
-    public Iterable<ProductDto> getAllProducts(
-        @RequestParam(
-            required = false,
-            defaultValue = "",
-            name = "categoryid"
-        ) String categoryId
+    public List<ProductDto> getAllProducts(
+        @RequestParam(name = "categoryId", required = false) Byte categoryId
     ) {
 
-        return productRepository.findAll()
+        List<Product> products;
+        if (categoryId != null) {
+            products = productRepository.findByCategoryId(categoryId);
+        } else {
+            products = productRepository.findAll();
+        }
+        
+        return products
             .stream()
             .map(productMapper::toDto)
             .toList();
