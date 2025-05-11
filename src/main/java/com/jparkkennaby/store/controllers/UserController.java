@@ -7,6 +7,7 @@ import com.jparkkennaby.store.dtos.UserDto;
 import com.jparkkennaby.store.mappers.UserMapper;
 import com.jparkkennaby.store.repositories.UserRepository;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 import java.util.Set;
@@ -69,7 +70,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserDto> createUser(
-        @RequestBody RegisterUserRequest request,
+        @Valid @RequestBody RegisterUserRequest request,
         UriComponentsBuilder uriBuilder
         ) {
         var user = userMapper.toEntity(request);
