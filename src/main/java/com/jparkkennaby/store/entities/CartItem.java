@@ -1,11 +1,13 @@
 package com.jparkkennaby.store.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.UUID;
-
+@Getter
+@Setter
 @Entity
-@Table(name = "carts")
+@Table(name = "cart_items")
 public class CartItem {
 
     @Id
@@ -13,13 +15,13 @@ public class CartItem {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    @Column(name = "product_id")
-    private Long productId;
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    @Column(name = "cart_id")
-    private UUID cartId;
+    @ManyToOne()
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     @Column(name = "quantity")
     private Integer quantity;
