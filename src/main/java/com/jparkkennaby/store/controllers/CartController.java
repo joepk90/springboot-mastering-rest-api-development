@@ -2,6 +2,7 @@ package com.jparkkennaby.store.controllers;
 
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -71,6 +72,9 @@ public class CartController {
         }
 
         cartRepository.save(cart);
-        return ResponseEntity.ok(null);
+
+        var cartItemDto = cartMapper.toDto(cartItem);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(cartItemDto);
     }
 }
