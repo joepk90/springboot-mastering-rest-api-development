@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -76,5 +77,20 @@ public class CartController {
         var cartItemDto = cartMapper.toDto(cartItem);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(cartItemDto);
+    }
+
+    @GetMapping("/{cartId}")
+    public ResponseEntity<CartDto> getCart(
+            @PathVariable UUID cartId,
+            UriComponentsBuilder uriBuilder) {
+
+        var cart = cartRepository.findById(cartId).orElse(null);
+        if (cart == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        var cartDto = cartMapper.toDto(cart);
+
+        return ResponseEntity.ok(cartDto);
     }
 }
