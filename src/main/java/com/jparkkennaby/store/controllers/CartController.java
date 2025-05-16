@@ -21,6 +21,7 @@ import com.jparkkennaby.store.dtos.UpdateCartItemRequest;
 import com.jparkkennaby.store.dtos.AddItemToCartRequestDto;
 import com.jparkkennaby.store.entities.Cart;
 import com.jparkkennaby.store.mappers.CartMapper;
+import com.jparkkennaby.store.services.CartService;
 import com.jparkkennaby.store.repositories.CartRepository;
 import com.jparkkennaby.store.repositories.ProductRepository;
 
@@ -34,13 +35,13 @@ public class CartController {
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
     private final CartMapper cartMapper;
+    private final CartService cartService;
 
     @PostMapping
     public ResponseEntity<CartDto> createCart(UriComponentsBuilder uriBuilder) {
-        var cart = cartRepository.save(new Cart());
-        var cartDto = cartMapper.toDto(cart);
+        var cartDto = cartService.createCart();
+        var uri = uriBuilder.path("/carts/{id}").buildAndExpand(cartDto.getId()).toUri();
 
-        var uri = uriBuilder.path("/carts/{id}").buildAndExpand(cart.getId()).toUri();
         return ResponseEntity.created(uri).body(cartDto);
     }
 
