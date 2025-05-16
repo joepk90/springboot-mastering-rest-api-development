@@ -10,7 +10,6 @@ import com.jparkkennaby.store.entities.CartItem;
 
 @Mapper(componentModel = "spring") // so spring is made aware and can make beans at runtime
 public interface CartMapper {
-    @Mapping(target = "items", source = "cartItems")
     CartDto toDto(Cart cart);
 
     @Mapping(target = "totalPrice", expression = "java(cartItem.getTotalPrice())")

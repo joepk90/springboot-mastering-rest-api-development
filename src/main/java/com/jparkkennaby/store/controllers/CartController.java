@@ -57,7 +57,7 @@ public class CartController {
             return ResponseEntity.badRequest().build();
         }
 
-        var cartItem = cart.getCartItems().stream()
+        var cartItem = cart.getItems().stream()
                 .filter(item -> item.getProduct().getId().equals(product.getId()))
                 .findFirst().orElse(null);
 
@@ -69,7 +69,7 @@ public class CartController {
             cartItem.setCart(cart);
             cartItem.setQuantity(1);
 
-            cart.getCartItems().add(cartItem);
+            cart.getItems().add(cartItem);
         }
 
         cartRepository.save(cart);
