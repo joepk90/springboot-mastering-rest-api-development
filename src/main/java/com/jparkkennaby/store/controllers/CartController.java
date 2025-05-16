@@ -1,5 +1,6 @@
 package com.jparkkennaby.store.controllers;
 
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.jparkkennaby.store.dtos.CartDto;
 import com.jparkkennaby.store.dtos.CartItemDto;
+import com.jparkkennaby.store.dtos.UpdateCartItemRequest;
 import com.jparkkennaby.store.dtos.AddItemToCartRequestDto;
 import com.jparkkennaby.store.entities.Cart;
 import com.jparkkennaby.store.entities.CartItem;
@@ -21,6 +24,7 @@ import com.jparkkennaby.store.mappers.CartMapper;
 import com.jparkkennaby.store.repositories.CartRepository;
 import com.jparkkennaby.store.repositories.ProductRepository;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -92,5 +96,34 @@ public class CartController {
         var cartDto = cartMapper.toDto(cart);
 
         return ResponseEntity.ok(cartDto);
+    }
+
+    @PutMapping("/{cartId}/items/{productId}")
+    public ResponseEntity<?> updateItem(
+            @PathVariable UUID cartId,
+            @PathVariable Long productId,
+            @Valid @RequestBody UpdateCartItemRequest request,
+            UriComponentsBuilder uriBuilder) {
+
+        var cart = cartRepository.getCartWithItems(cartId).orElse(null);
+        if (cart == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    Map.of("error", "Cart not found."));
+        }
+
+        var cartItem = cart.getItems().stream()
+                .filter(item -> item.getProduct().getId().equals(
+                        productId))
+                .findFirst().orElse(null);
+
+        if (cartItem == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    Map.of("error", "Product was not found in the cart."));
+        }
+
+        cartItem.setQuantity(request.getQuantity());
+        cartRepository.save(cart);
+
+        return ResponseEntity.ok(cartMapper.toDto(cartItem));
     }
 }
