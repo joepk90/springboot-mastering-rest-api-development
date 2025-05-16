@@ -46,7 +46,7 @@ public class CartController {
             @RequestBody AddItemToCartRequestDto request,
             UriComponentsBuilder uriBuilder) {
 
-        var cart = cartRepository.findById(cartId).orElse(null);
+        var cart = cartRepository.getCartWithItems(cartId).orElse(null);
         if (cart == null) {
             return ResponseEntity.notFound().build();
         }
@@ -84,7 +84,7 @@ public class CartController {
             @PathVariable UUID cartId,
             UriComponentsBuilder uriBuilder) {
 
-        var cart = cartRepository.findById(cartId).orElse(null);
+        var cart = cartRepository.getCartWithItems(cartId).orElse(null);
         if (cart == null) {
             return ResponseEntity.notFound().build();
         }
