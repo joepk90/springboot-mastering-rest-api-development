@@ -2,6 +2,7 @@ package com.jparkkennaby.store.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -23,6 +24,7 @@ public class SecurityConfig {
                 // Authorize specific requests
                 .authorizeHttpRequests(c -> c
                         .requestMatchers("carts/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "users/**").permitAll()
                         .anyRequest().authenticated());
 
         // make all requests public
