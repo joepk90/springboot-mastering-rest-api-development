@@ -107,3 +107,11 @@ make dev
 ```
 **Note:**
 Let each command complete before running the next. Also the `make dev` command may not work on the first try...
+
+
+# API Documentation (Swagger)
+To see the availabe API endpoints, go to: [localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html).
+
+For more deails, see the documentation at [springdoc.org](https://springdoc.org/#getting-started).
+
+
