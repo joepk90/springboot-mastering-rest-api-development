@@ -39,22 +39,17 @@ public class UserController {
     // GetMapping just handles the GET method
     @GetMapping
     public Iterable<UserDto> getAllUsers(
-        // @RequestHeader(required = false, name = "x-auth-token") String authToken,
-        @RequestParam(
-            required = false,
-            defaultValue = "",
-            name = "sort"
-        ) String sortBy
-    ) {
-        
+            // @RequestHeader(required = false, name = "x-auth-token") String authToken,
+            @RequestParam(required = false, defaultValue = "", name = "sort") String sortBy) {
+
         // restrict allowed sort values
         if (!Set.of("name", "email").contains(sortBy))
             sortBy = "name"; // defult sort paramter = name
 
         return userRepository.findAll(Sort.by(sortBy))
-            .stream()
-            .map(userMapper::toDto)
-            .toList();
+                .stream()
+                .map(userMapper::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
@@ -64,21 +59,19 @@ public class UserController {
             // return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             return ResponseEntity.notFound().build();
         }
-        
-         // return new ResponseEntity<>(user, HttpStatus.OK);
-         return ResponseEntity.ok(userMapper.toDto(user));
+
+        // return new ResponseEntity<>(user, HttpStatus.OK);
+        return ResponseEntity.ok(userMapper.toDto(user));
     }
 
     @PostMapping
     public ResponseEntity<?> registerUser(
-        @Valid @RequestBody RegisterUserRequest request,
-        UriComponentsBuilder uriBuilder
-        ) {
-        
+            @Valid @RequestBody RegisterUserRequest request,
+            UriComponentsBuilder uriBuilder) {
+
         if (userRepository.existsByEmail(request.getEmail())) {
             return ResponseEntity.badRequest().body(
-                Map.of("email", "Email is already registered.")
-            );
+                    Map.of("email", "Email is already registered."));
         }
 
         var user = userMapper.toEntity(request);
@@ -86,10 +79,12 @@ public class UserController {
 
         var userDto = userMapper.toDto(user);
 
-        // works, however does not follow standard REST conventions (returns 200 and no uri)
+        // works, however does not follow standard REST conventions (returns 200 and no
+        // uri)
         // return ResponseEntity.ok(userDto);
 
-        // created returns a 201 and a URI (where the resource was saved too -see respone headers)
+        // created returns a 201 and a URI (where the resource was saved too -see
+        // respone headers)
         var uri = uriBuilder.path("/users/{id}").buildAndExpand(userDto.getId()).toUri();
         return ResponseEntity.created(uri).body(userDto);
     }
@@ -97,8 +92,7 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(
             @PathVariable(name = "id") Long id,
-            @RequestBody UpdateUserRequest request
-        ) {
+            @RequestBody UpdateUserRequest request) {
 
         var user = userRepository.findById(id).orElse(null);
 
@@ -128,9 +122,8 @@ public class UserController {
     // using a post request, as it is an action based update
     @PostMapping("/{id}/change-password")
     public ResponseEntity<Void> changePassword(
-        @PathVariable Long id,
-        @RequestBody ChangePasswordRequest request
-    ) {
+            @PathVariable Long id,
+            @RequestBody ChangePasswordRequest request) {
         var user = userRepository.findById(id).orElse(null);
 
         if (user == null) {

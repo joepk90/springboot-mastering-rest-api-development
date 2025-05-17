@@ -31,11 +31,10 @@ public class ProductController {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
     private final CategoryRepository categoryRepository;
-    
+
     @GetMapping
     public List<ProductDto> getAllProducts(
-        @RequestParam(name = "categoryId", required = false) Byte categoryId
-    ) {
+            @RequestParam(name = "categoryId", required = false) Byte categoryId) {
 
         List<Product> products;
         if (categoryId != null) {
@@ -43,30 +42,29 @@ public class ProductController {
         } else {
             products = productRepository.findAllWithCategory();
         }
-        
+
         return products
-            .stream()
-            .map(productMapper::toDto)
-            .toList();
+                .stream()
+                .map(productMapper::toDto)
+                .toList();
     }
 
-     @GetMapping("/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {
         var product = productRepository.findById(id).orElse(null);
         if (product == null) {
             // return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             return ResponseEntity.notFound().build();
         }
-        
-         // return new ResponseEntity<>(user, HttpStatus.OK);
-         return ResponseEntity.ok(productMapper.toDto(product));
+
+        // return new ResponseEntity<>(user, HttpStatus.OK);
+        return ResponseEntity.ok(productMapper.toDto(product));
     }
 
     @PostMapping
     public ResponseEntity<ProductDto> createProduct(
-        @RequestBody ProductDto productDto,
-        UriComponentsBuilder uriBuilder
-        ) {
+            @RequestBody ProductDto productDto,
+            UriComponentsBuilder uriBuilder) {
         var category = categoryRepository.findById(productDto.getCategoryId()).orElse(null);
 
         if (category == null) {
@@ -85,14 +83,13 @@ public class ProductController {
     @PutMapping("/{id}")
     public ResponseEntity<ProductDto> updateProduct(
             @PathVariable(name = "id") Long id,
-            @RequestBody ProductDto productDto
-        ) {
+            @RequestBody ProductDto productDto) {
 
         var category = categoryRepository.findById(productDto.getCategoryId()).orElse(null);
         if (category == null) {
             return ResponseEntity.notFound().build();
         }
-        
+
         var product = productRepository.findById(id).orElse(null);
 
         if (product == null) {
