@@ -22,7 +22,6 @@ import com.jparkkennaby.store.dtos.UpdateCartItemRequest;
 import com.jparkkennaby.store.dtos.AddItemToCartRequestDto;
 import com.jparkkennaby.store.exceptions.CartNotFoundException;
 import com.jparkkennaby.store.exceptions.ProductNotFoundException;
-import com.jparkkennaby.store.mappers.CartMapper;
 import com.jparkkennaby.store.services.CartService;
 
 import jakarta.validation.Valid;
@@ -32,7 +31,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @RequestMapping("/carts")
 public class CartController {
-    private final CartMapper cartMapper;
     private final CartService cartService;
 
     @PostMapping
@@ -52,31 +50,29 @@ public class CartController {
     }
 
     @GetMapping("/{cartId}")
-    public ResponseEntity<CartDto> getCart(@PathVariable UUID cartId) {
-        return ResponseEntity.ok(cartService.getCart(cartId));
+    public CartDto getCart(@PathVariable UUID cartId) {
+        return cartService.getCart(cartId);
     }
 
     @PutMapping("/{cartId}/items/{productId}")
-    public ResponseEntity<?> updateItem(
+    public CartItemDto updateItem(
             @PathVariable UUID cartId,
             @PathVariable Long productId,
             @Valid @RequestBody UpdateCartItemRequest request) {
-        var cartItemDto = cartService.updateitem(cartId, productId, request.getQuantity());
-
-        return ResponseEntity.ok(cartItemDto);
+        return cartService.updateitem(cartId, productId, request.getQuantity());
     }
 
     @DeleteMapping("/{cartId}/items/{productId}")
-    public ResponseEntity<?> deleteItem(
+    public ResponseEntity<?> removeItem(
             @PathVariable UUID cartId,
             @PathVariable Long productId) {
-        cartService.deleteItem(cartId, productId);
+        cartService.removeItem(cartId, productId);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{cartId}/items")
     public ResponseEntity<Void> clearCart(@PathVariable UUID cartId) {
-        cartService.clear(cartId);
+        cartService.clearCart(cartId);
         return ResponseEntity.noContent().build();
     }
 
