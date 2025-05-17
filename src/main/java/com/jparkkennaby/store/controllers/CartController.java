@@ -24,12 +24,16 @@ import com.jparkkennaby.store.exceptions.CartNotFoundException;
 import com.jparkkennaby.store.exceptions.ProductNotFoundException;
 import com.jparkkennaby.store.services.CartService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/carts")
+@Tag(name = "Carts") // controls the name of the controller in swagger
 public class CartController {
     private final CartService cartService;
 
@@ -42,8 +46,9 @@ public class CartController {
     }
 
     @PostMapping("/{cartId}/items")
+    @Operation(summary = "Adds a product to the cart.")
     public ResponseEntity<CartItemDto> addToCart(
-            @PathVariable UUID cartId,
+            @Parameter(description = "The ID of the cart") @PathVariable UUID cartId,
             @RequestBody AddItemToCartRequestDto request) {
         var cartItemDto = cartService.addToCart(cartId, request.getProductId());
         return ResponseEntity.status(HttpStatus.CREATED).body(cartItemDto);
