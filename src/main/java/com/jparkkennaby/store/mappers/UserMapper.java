@@ -11,8 +11,11 @@ import com.jparkkennaby.store.entities.User;
 
 @Mapper(componentModel = "spring") // so spring is made aware and can make beans at runtime
 public interface UserMapper {
-    // @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
+    // @Mapping(target = "createdAt", expression =
+    // "java(java.time.LocalDateTime.now())")
     UserDto toDto(User user);
+
     User toEntity(RegisterUserRequest request);
+
     void update(UpdateUserRequest request, @MappingTarget User user);
 }
