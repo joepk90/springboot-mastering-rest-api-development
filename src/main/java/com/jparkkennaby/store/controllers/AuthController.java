@@ -42,9 +42,11 @@ public class AuthController {
 
     @PostMapping("/validate")
     public boolean validate(@RequestHeader("Authorization") String authHeader) {
+        // print intentionally committed to show filter functionality (LoggingFilter)
+        System.out.println("Validate called");
+
         var token = authHeader.replace("Bearer ", "");
         return jwtService.validateToken(token);
-
     }
 
     // updates the response status to 401 (instead a 403 forbidden is returned)
