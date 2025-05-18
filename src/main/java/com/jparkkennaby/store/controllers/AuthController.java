@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jparkkennaby.store.dtos.JwtResponse;
 import com.jparkkennaby.store.dtos.LoginRequest;
+import com.jparkkennaby.store.services.JwtService;
 
 import jakarta.validation.Valid;
 
@@ -22,14 +24,18 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/auth")
 public class AuthController {
     private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<JwtResponse> login(@Valid @RequestBody LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()));
-        return ResponseEntity.ok().build();
+
+        var token = jwtService.generateToken(request.getEmail());
+
+        return ResponseEntity.ok(new JwtResponse(token));
     }
 
     // updates the response status to 401 (instead a 403 forbidden is returned)
