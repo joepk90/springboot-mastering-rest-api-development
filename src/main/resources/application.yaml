@@ -8,4 +8,4 @@ spring:
   jpa:
     show-sql: true # show sql statements being run
   jwt:
-    secret: secret
+    secret: ${JWT_SECRET}

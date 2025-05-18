@@ -19,7 +19,7 @@ public class JwtService {
                 .subject(email)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000 * tokenExpiration))
-                .signWith(Keys.hmacShaKeyFor(secret.getBytes())) // weak secret (causes exception)
+                .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
                 .compact();
     }
 }
