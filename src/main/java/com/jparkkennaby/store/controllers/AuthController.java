@@ -17,6 +17,8 @@ import com.jparkkennaby.store.services.JwtService;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -36,6 +38,13 @@ public class AuthController {
         var token = jwtService.generateToken(request.getEmail());
 
         return ResponseEntity.ok(new JwtResponse(token));
+    }
+
+    @PostMapping("/validate")
+    public boolean validate(@RequestHeader("Authorization") String authHeader) {
+        var token = authHeader.replace("Bearer ", "");
+        return jwtService.validateToken(token);
+
     }
 
     // updates the response status to 401 (instead a 403 forbidden is returned)
