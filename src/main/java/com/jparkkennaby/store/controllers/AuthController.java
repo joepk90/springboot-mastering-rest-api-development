@@ -1,18 +1,16 @@
 package com.jparkkennaby.store.controllers;
 
-import java.util.Map;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jparkkennaby.store.dtos.LoginRequest;
-import com.jparkkennaby.store.exceptions.IncorrectPasswordException;
-import com.jparkkennaby.store.exceptions.UserNotFoundException;
-import com.jparkkennaby.store.services.AuthService;
+import com.jparkkennaby.store.repositories.UserRepository;
+
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import lombok.AllArgsConstructor;
@@ -21,23 +19,20 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @RequestMapping("/auth")
 public class AuthController {
-    private final AuthService authService;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        authService.login(request);
+    public ResponseEntity<Void> login(@Valid @RequestBody LoginRequest request) {
+        var user = userRepository.findByEmail(request.getEmail()).orElse(null);
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         return ResponseEntity.ok().build();
-    }
-
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Map<String, String>> handleUserNotFound() {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                Map.of("error", "User not found."));
-    }
-
-    @ExceptionHandler(IncorrectPasswordException.class)
-    public ResponseEntity<Map<String, String>> handleIncorrectPassword() {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
-                Map.of("error", "Incorrect password."));
     }
 }
