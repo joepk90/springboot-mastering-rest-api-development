@@ -7,3 +7,5 @@ spring:
     password: dbpw
   jpa:
     show-sql: true # show sql statements being run
+  jwt:
+    secret: secret
