@@ -115,3 +115,15 @@ To see the availabe API endpoints, go to: [localhost:8080/swagger-ui/index.html]
 For more deails, see the documentation at [springdoc.org](https://springdoc.org/#getting-started).
 
 
+# Application Configuration
+
+## JWT Secret
+An encryption key can be generated at [generate-random.org/encryption-key-generator](https://generate-random.org/encryption-key-generator).
+
+Or use `openssl`:
+```
+make jwt-secret
+```
+
+## JWT Inspection
+To inspect a JWT token the folling websote can be used: [jwt.io](https://jwt.io)

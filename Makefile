@@ -1,3 +1,6 @@
+jwt-secret:
+	openssl rand -base64 64
+
 install:
 	mvn dependency:resolve
 
