@@ -15,6 +15,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.jparkkennaby.store.filters.JwtAuthenticationFilter;
 
 import lombok.AllArgsConstructor;
 
@@ -23,6 +26,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class SecurityConfig {
     private final UserDetailsService userDetailsService;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -58,8 +62,9 @@ public class SecurityConfig {
                         .requestMatchers("carts/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "users/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "auth/validate").permitAll()
-                        .anyRequest().authenticated());
+                        .anyRequest().authenticated())
+                // add the jwtAuthenticationFilter as early as possible in the filter chain
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         // make all requests public
         // http.authorizeHttpRequests(c -> c.anyRequest().permitAll());
