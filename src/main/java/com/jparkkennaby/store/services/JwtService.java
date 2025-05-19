@@ -5,6 +5,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -26,16 +27,20 @@ public class JwtService {
 
     public boolean validateToken(String token) {
         try {
-            var claims = Jwts.parser()
-                    .verifyWith(Keys.hmacShaKeyFor(secret.getBytes()))
-                    .build() // returns a jwt parser
-                    .parseSignedClaims(token)
-                    .getPayload();
+            var claims = getClaims(token);
 
             // if the expiration date is after the current date, the token is valid
             return claims.getExpiration().after(new Date());
         } catch (JwtException e) {
             return false;
         }
+    }
+
+    private Claims getClaims(String token) {
+        return Jwts.parser()
+                .verifyWith(Keys.hmacShaKeyFor(secret.getBytes()))
+                .build() // returns a jwt parser
+                .parseSignedClaims(token)
+                .getPayload();
     }
 }
