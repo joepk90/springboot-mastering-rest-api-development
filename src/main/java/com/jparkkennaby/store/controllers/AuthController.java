@@ -63,9 +63,9 @@ public class AuthController {
         // have already thrown an exception if the user doesn't exist or is invalid
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
 
-        var token = jwtService.generateToken(user);
+        var accessToken = jwtService.generateAccessToken(user);
 
-        return ResponseEntity.ok(new JwtResponse(token));
+        return ResponseEntity.ok(new JwtResponse(accessToken));
     }
 
     @PostMapping("/validate")
