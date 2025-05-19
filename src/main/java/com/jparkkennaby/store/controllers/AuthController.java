@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jparkkennaby.store.config.JwtConfig;
 import com.jparkkennaby.store.dtos.JwtResponse;
 import com.jparkkennaby.store.dtos.LoginRequest;
 import com.jparkkennaby.store.dtos.UserDto;
@@ -36,6 +37,7 @@ public class AuthController {
     private final JwtService jwtService;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final JwtConfig jwtConfig;
 
     @GetMapping("/me")
     public ResponseEntity<UserDto> me() {
@@ -74,7 +76,7 @@ public class AuthController {
         var cookie = new Cookie("refreshToken", refreshToken);
         cookie.setHttpOnly(true); // cannot be accessed by javascript
         cookie.setPath("/auth/refresh"); // path where the cookie can be sent too
-        cookie.setMaxAge(604800); // cookie will expire after 7 days
+        cookie.setMaxAge(jwtConfig.getRefreshTokenExpiration()); // cookie will expire after 7 days
         cookie.setSecure(true); // can only be set over https connections
         response.addCookie(cookie); // sets the cookie on the reponse
 
