@@ -19,6 +19,8 @@ import com.jparkkennaby.store.mappers.UserMapper;
 import com.jparkkennaby.store.repositories.UserRepository;
 import com.jparkkennaby.store.services.JwtService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,7 +55,10 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JwtResponse> login(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<JwtResponse> login(
+            @Valid @RequestBody LoginRequest request,
+            HttpServletResponse response // provides low level access to the http response
+    ) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -64,6 +69,14 @@ public class AuthController {
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
 
         var accessToken = jwtService.generateAccessToken(user);
+        var refreshToken = jwtService.generateRefreshToken(user);
+
+        var cookie = new Cookie("refreshToken", refreshToken);
+        cookie.setHttpOnly(true); // cannot be accessed by javascript
+        cookie.setPath("/auth/refresh"); // path where the cookie can be sent too
+        cookie.setMaxAge(604800); // cookie will expire after 7 days
+        cookie.setSecure(true); // can only be set over https connections
+        response.addCookie(cookie); // sets the cookie on the reponse
 
         return ResponseEntity.ok(new JwtResponse(accessToken));
     }

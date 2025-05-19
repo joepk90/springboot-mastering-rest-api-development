@@ -23,6 +23,12 @@ public class JwtService {
         return generateAccessToken(user, tokenExpiration);
     }
 
+    public String generateRefreshToken(User user) {
+        final long tokenExpiration = 604800; // 7 days in seconds
+
+        return generateAccessToken(user, tokenExpiration);
+    }
+
     private String generateAccessToken(User user, long tokenExpiration) {
         return Jwts.builder()
                 .subject(user.getId().toString())
