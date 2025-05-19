@@ -39,9 +39,10 @@ public class AuthController {
     public ResponseEntity<UserDto> me() {
         // auth context is set in the JwtAuthenticationFilter during http request
         var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var email = (String) authentication.getPrincipal(); // email set in filter
+        var userId = (Long) authentication.getPrincipal(); // user id set in filter
 
-        var user = userRepository.findByEmail(email).orElse(null);
+        // find by id is more efficient than by email
+        var user = userRepository.findById(userId).orElse(null);
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
