@@ -5,13 +5,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jparkkennaby.store.dtos.JwtResponse;
 import com.jparkkennaby.store.dtos.LoginRequest;
+import com.jparkkennaby.store.dtos.UserDto;
+import com.jparkkennaby.store.mappers.UserMapper;
+import com.jparkkennaby.store.repositories.UserRepository;
 import com.jparkkennaby.store.services.JwtService;
 
 import jakarta.validation.Valid;
@@ -27,6 +32,24 @@ import lombok.AllArgsConstructor;
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+
+    @GetMapping("/me")
+    public ResponseEntity<UserDto> me() {
+        // auth context is set in the JwtAuthenticationFilter during http request
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        var email = (String) authentication.getPrincipal(); // email set in filter
+
+        var user = userRepository.findByEmail(email).orElse(null);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        var userDto = userMapper.toDto(user);
+        return ResponseEntity.ok(userDto);
+
+    }
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@Valid @RequestBody LoginRequest request) {
