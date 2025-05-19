@@ -58,7 +58,11 @@ public class AuthController {
                         request.getEmail(),
                         request.getPassword()));
 
-        var token = jwtService.generateToken(request.getEmail());
+        // exception should never be reached, because the authentication manager will
+        // have already thrown an exception if the user doesn't exist or is invalid
+        var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
+
+        var token = jwtService.generateToken(user);
 
         return ResponseEntity.ok(new JwtResponse(token));
     }
