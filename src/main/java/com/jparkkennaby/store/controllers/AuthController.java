@@ -74,28 +74,29 @@ public class AuthController {
         var accessToken = jwtService.generateAccessToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
 
-        var cookie = new Cookie("refreshToken", refreshToken);
+        var cookie = new Cookie("refreshToken", refreshToken.toString());
         cookie.setHttpOnly(true); // cannot be accessed by javascript
         cookie.setPath("/auth/refresh"); // path where the cookie can be sent too
         cookie.setMaxAge(jwtConfig.getRefreshTokenExpiration()); // cookie will expire after 7 days
         cookie.setSecure(true); // can only be set over https connections
         response.addCookie(cookie); // sets the cookie on the reponse
 
-        return ResponseEntity.ok(new JwtResponse(accessToken));
+        return ResponseEntity.ok(new JwtResponse(accessToken.toString()));
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<JwtResponse> refresh(
             @CookieValue(value = "refreshToken") String refreshToken) {
-        if (!jwtService.validateToken(refreshToken)) {
+
+        var jwt = jwtService.parseToken(refreshToken);
+        if (jwt == null || jwt.isExpired()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        var userId = jwtService.getUserIdFromToken(refreshToken);
-        var user = userRepository.findById(userId).orElseThrow(); // should never happen
+        var user = userRepository.findById(jwt.getUserId()).orElseThrow(); // should never happen
         var accessToken = jwtService.generateAccessToken(user);
 
-        return ResponseEntity.ok(new JwtResponse(accessToken));
+        return ResponseEntity.ok(new JwtResponse(accessToken.toString()));
     }
 
     // @PostMapping("/validate")

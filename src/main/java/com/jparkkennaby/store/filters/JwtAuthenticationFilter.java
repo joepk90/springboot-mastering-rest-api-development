@@ -43,9 +43,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         var token = authHeader.replace("Bearer ", "");
+        var jwt = jwtService.parseToken(token);
 
         // if the token is invalid, call the next filter and return
-        if (!jwtService.validateToken(token)) {
+        if (jwt == null || jwt.isExpired()) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -61,13 +62,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
          * authorities argument
          */
 
-        var role = jwtService.getRoledFromToken(token);
-        var userId = jwtService.getUserIdFromToken(token);
-
         var authentication = new UsernamePasswordAuthenticationToken(
-                userId,
+                jwt.getUserId(),
                 null,
-                List.of(new SimpleGrantedAuthority("ROLE_" + role))); // ROLE_ prefix is required
+                List.of(new SimpleGrantedAuthority("ROLE_" + jwt.getRole()))); // ROLE_ prefix is required
 
         authentication.setDetails(
                 new WebAuthenticationDetailsSource().buildDetails(request)); // add additional metadata
