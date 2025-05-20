@@ -3,6 +3,7 @@ package com.jparkkennaby.store.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.jparkkennaby.store.filters.JwtAuthenticationFilter;
@@ -65,7 +67,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "auth/refresh").permitAll()
                         .anyRequest().authenticated())
                 // add the jwtAuthenticationFilter as early as possible in the filter chain
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(c -> c.authenticationEntryPoint(
+                        // updates the default unauthenticated http status:
+                        // 403 (forbidden) -> 401 (unathorized)
+                        new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)));
 
         // make all requests public
         // http.authorizeHttpRequests(c -> c.anyRequest().permitAll());
