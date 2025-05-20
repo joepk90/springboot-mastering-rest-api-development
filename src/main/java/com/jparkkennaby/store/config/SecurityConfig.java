@@ -62,6 +62,7 @@ public class SecurityConfig {
                         .requestMatchers("carts/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "users/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "auth/refresh").permitAll()
                         .anyRequest().authenticated())
                 // add the jwtAuthenticationFilter as early as possible in the filter chain
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
