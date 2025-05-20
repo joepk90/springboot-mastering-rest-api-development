@@ -4,6 +4,7 @@ import com.jparkkennaby.store.dtos.ChangePasswordRequest;
 import com.jparkkennaby.store.dtos.RegisterUserRequest;
 import com.jparkkennaby.store.dtos.UpdateUserRequest;
 import com.jparkkennaby.store.dtos.UserDto;
+import com.jparkkennaby.store.entities.Role;
 import com.jparkkennaby.store.mappers.UserMapper;
 import com.jparkkennaby.store.repositories.UserRepository;
 
@@ -78,6 +79,11 @@ public class UserController {
 
         var user = userMapper.toEntity(request);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        // setting the role could be handled in our user mapper,
+        // but it's very important so we are setting it explicitly here
+        user.setRole(Role.USER);
+
         userRepository.save(user);
 
         var userDto = userMapper.toDto(user);
