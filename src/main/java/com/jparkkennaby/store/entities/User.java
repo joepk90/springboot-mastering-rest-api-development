@@ -30,6 +30,16 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    /**
+     * Role Column:
+     * - simple solution
+     * - in larger/complex applications it may be a good idea to move roles to
+     * seperate table
+     */
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING) // store value as a string in the db
+    private Role role;
+
     @OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE }, orphanRemoval = true)
     @Builder.Default
     private List<Address> addresses = new ArrayList<>();
