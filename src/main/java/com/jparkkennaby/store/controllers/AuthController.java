@@ -25,7 +25,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+// import org.springframework.web.bind.annotation.RequestHeader;
 
 import lombok.AllArgsConstructor;
 
@@ -83,14 +83,14 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(accessToken));
     }
 
-    @PostMapping("/validate")
-    public boolean validate(@RequestHeader("Authorization") String authHeader) {
-        // print intentionally committed to show filter functionality (LoggingFilter)
-        System.out.println("Validate called");
+    // @PostMapping("/validate")
+    // public boolean validate(@RequestHeader("Authorization") String authHeader) {
+    // // print intentionally committed to show filter functionality (LoggingFilter)
+    // System.out.println("Validate called");
 
-        var token = authHeader.replace("Bearer ", "");
-        return jwtService.validateToken(token);
-    }
+    // var token = authHeader.replace("Bearer ", "");
+    // return jwtService.validateToken(token);
+    // }
 
     // updates the response status to 401 (instead a 403 forbidden is returned)
     // when the user is not found or the password is incorrect
