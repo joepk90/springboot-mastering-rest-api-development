@@ -19,6 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.jparkkennaby.store.entities.Role;
 import com.jparkkennaby.store.filters.JwtAuthenticationFilter;
 
 import lombok.AllArgsConstructor;
@@ -62,16 +63,23 @@ public class SecurityConfig {
                 // Authorize specific requests
                 .authorizeHttpRequests(c -> c
                         .requestMatchers("carts/**").permitAll()
+                        .requestMatchers("admin/**").hasRole(Role.ADMIN.name())
                         .requestMatchers(HttpMethod.POST, "users/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "auth/refresh").permitAll()
                         .anyRequest().authenticated())
                 // add the jwtAuthenticationFilter as early as possible in the filter chain
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling(c -> c.authenticationEntryPoint(
-                        // updates the default unauthenticated http status:
-                        // 403 (forbidden) -> 401 (unathorized)
-                        new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)));
+                .exceptionHandling(c -> {
+                    // updates the default unauthenticated http status:
+                    // 403 (forbidden) -> 401 (unathorized)
+                    c.authenticationEntryPoint(
+                            new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
+
+                    // updates forbidden routes to return a 403 status
+                    c.accessDeniedHandler((request, response, accessDeniiedException) -> response
+                            .setStatus(HttpStatus.FORBIDDEN.value()));
+                });
 
         // make all requests public
         // http.authorizeHttpRequests(c -> c.anyRequest().permitAll());
