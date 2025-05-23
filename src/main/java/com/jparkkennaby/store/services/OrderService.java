@@ -1,5 +1,6 @@
 package com.jparkkennaby.store.services;
 
+import org.springframework.security.access.AccessDeniedException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -25,11 +26,13 @@ public class OrderService {
     }
 
     public OrderDto getOrder(Long orderId) {
-        var user = authService.getCurrentUser();
-        var order = orderRepository.getByIdAndCustomer(user, orderId).orElse(null);
+        var order = orderRepository.getOrderWithItems(orderId)
+                .orElseThrow(OrderNotFoundException::new);
 
-        if (order == null) {
-            throw new OrderNotFoundException();
+        var user = authService.getCurrentUser();
+
+        if (!order.isPlacedBy(user)) {
+            throw new AccessDeniedException("You don't have access to this order");
         }
 
         return ordersMapper.toDto(order);

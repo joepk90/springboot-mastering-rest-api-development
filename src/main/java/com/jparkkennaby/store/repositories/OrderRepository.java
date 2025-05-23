@@ -21,6 +21,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     public List<Order> getAllByCustomer(@Param("customer") User customer);
 
     @EntityGraph(attributePaths = "items.product")
-    @Query("SELECT o FROM Order o WHERE o.customer = :customer AND o.id = :orderId")
-    public Optional<Order> getByIdAndCustomer(@Param("customer") User customer, @Param("orderId") Long orderId);
+    @Query("SELECT o FROM Order o WHERE o.id = :orderId")
+    public Optional<Order> getOrderWithItems(@Param("orderId") Long orderId);
 }
