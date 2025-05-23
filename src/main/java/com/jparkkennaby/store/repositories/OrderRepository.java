@@ -18,7 +18,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     // use entity graph to eagily load the orders items and the related product
     @EntityGraph(attributePaths = "items.product")
     @Query("SELECT o FROM Order o WHERE o.customer = :customer")
-    public List<Order> getAllByCustomer(@Param("customer") User customer);
+    public List<Order> getOrdersByCustomer(@Param("customer") User customer);
 
     @EntityGraph(attributePaths = "items.product")
     @Query("SELECT o FROM Order o WHERE o.id = :orderId")
