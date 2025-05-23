@@ -11,6 +11,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.jparkkennaby.store.dtos.CheckoutRequest;
 import com.jparkkennaby.store.dtos.CheckoutResponse;
+import com.jparkkennaby.store.dtos.ErrorDto;
 import com.jparkkennaby.store.entities.Order;
 import com.jparkkennaby.store.entities.OrderItem;
 import com.jparkkennaby.store.entities.OrderStatus;
@@ -36,12 +37,12 @@ public class CheckoutController {
         var cart = cartRepository.getCartWithItems(request.getCartId()).orElse(null);
         if (cart == null) {
             return ResponseEntity.badRequest().body(
-                    Map.of("error", "Cart not found"));
+                    new ErrorDto("Cart not found"));
         }
 
         if (cart.getItems().isEmpty()) {
             return ResponseEntity.badRequest().body(
-                    Map.of("error", "Cart is empty"));
+                    new ErrorDto("Cart is empty"));
         }
 
         var order = new Order();

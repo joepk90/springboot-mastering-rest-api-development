@@ -9,14 +9,16 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.jparkkennaby.store.dtos.ErrorDto;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     // handles invalid request body (was returning 401 Unauthorized)
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<Map<String, String>> handleUnreadableMessage() {
+    public ResponseEntity<ErrorDto> handleUnreadableMessage() {
         return ResponseEntity.badRequest().body(
-                Map.of("error", "Invalid request body"));
+                new ErrorDto("Invalid request body"));
     }
 
     // overrides the default exception handler
