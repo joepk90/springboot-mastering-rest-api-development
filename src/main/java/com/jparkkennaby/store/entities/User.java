@@ -14,11 +14,13 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Entity
+@EqualsAndHashCode(onlyExplicitlyIncluded = true) // generate equals/hashcode methods on specific fields
 @Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @EqualsAndHashCode.Include // automatically generate equals and hashcode methods
     private Long id;
 
     @Column(name = "name")
