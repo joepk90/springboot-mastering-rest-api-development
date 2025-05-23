@@ -1,6 +1,7 @@
 package com.jparkkennaby.store.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +19,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @EntityGraph(attributePaths = "items.product")
     @Query("SELECT o FROM Order o WHERE o.customer = :customer")
     public List<Order> getAllByCustomer(@Param("customer") User customer);
+
+    @EntityGraph(attributePaths = "items.product")
+    @Query("SELECT o FROM Order o WHERE o.customer = :customer AND o.id = :orderId")
+    public Optional<Order> getByIdAndCustomer(@Param("customer") User customer, @Param("orderId") Long orderId);
 }
