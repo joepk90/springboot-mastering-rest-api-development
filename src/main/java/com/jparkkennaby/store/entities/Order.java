@@ -1,10 +1,17 @@
 package com.jparkkennaby.store.entities;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
+@Entity
 @Table(name = "orders")
 public class Order {
     @Id
@@ -12,18 +19,20 @@ public class Order {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "customer_id")
-    @JoinColumn(name = "id")
-    @MapsId
+    @ManyToOne()
+    @JoinColumn(name = "customer_id")
     private User customer;
 
     @Column(name = "status")
-    private Status status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
-    @Column(name = "created_at", insertable = false, updatable = false)
-    private LocalDate createdAt;
+    @Column(name = "created_at", insertable = false, updatable = false) // db will assign value
+    private LocalDateTime createdAt;
 
     @Column(name = "total_price")
-    private BigDecimal price;
+    private BigDecimal totalPrice;
+
+    @OneToMany(mappedBy = "order")
+    private Set<OrderItem> items = new LinkedHashSet<>();
 }

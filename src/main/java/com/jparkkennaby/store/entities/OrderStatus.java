@@ -1,6 +1,6 @@
 package com.jparkkennaby.store.entities;
 
-public enum Status {
+public enum OrderStatus {
     PENDING,
     PAID,
     FAILED,
