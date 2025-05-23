@@ -33,6 +33,7 @@ public class Order {
     @Column(name = "total_price")
     private BigDecimal totalPrice;
 
-    @OneToMany(mappedBy = "order")
+    // CascadeType.PERSIST = save the order items when an order gets saved
+    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
     private Set<OrderItem> items = new LinkedHashSet<>();
 }
