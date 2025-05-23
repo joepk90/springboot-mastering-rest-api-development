@@ -1,6 +1,5 @@
 package com.jparkkennaby.store.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,17 +22,10 @@ public class OrderController {
     private final OrdersMapper ordersMapper;
 
     @GetMapping
-    public List<OrderDto> getOrders() {
+    public List<OrderDto> getAllOrders() {
         var user = authService.getCurrentUser();
-
-        var orders = orderRepository.findAllByCustomerId(user.getId());
-
-        List<OrderDto> ordersList = new ArrayList<>();
-        orders.forEach(order -> {
-            ordersList.add(ordersMapper.toDto(order));
-        });
-
-        return ordersList;
+        var orders = orderRepository.findAllByCustomer(user);
+        return orders.stream().map(ordersMapper::toDto).toList();
     }
 
 }

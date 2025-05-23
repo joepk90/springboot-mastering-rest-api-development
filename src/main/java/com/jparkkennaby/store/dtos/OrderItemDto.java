@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class OrderItemDto {
-    private CartProductDto product;
+    private OrderProductDto product;
     private int quantity;
     private BigDecimal totalPrice;
 }
