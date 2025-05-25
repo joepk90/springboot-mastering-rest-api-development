@@ -1,5 +1,6 @@
 package com.jparkkennaby.store.controllers;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -18,13 +19,18 @@ import com.jparkkennaby.store.exceptions.PaymentException;
 import com.jparkkennaby.store.services.CheckoutService;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
+// RequiredArgsConstructor - spring will only initialise the fields declared as final
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/checkout")
 public class CheckoutController {
     private final CheckoutService checkoutService;
+
+    @Value("${stripe.webhookSecretKey}")
+    private String webhookSecretKey;
 
     @PostMapping
     public CheckoutResponse checkout(@Valid @RequestBody CheckoutRequest request) {

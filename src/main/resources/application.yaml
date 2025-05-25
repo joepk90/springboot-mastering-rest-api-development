@@ -13,6 +13,7 @@ spring:
     refreshTokenExpiration: 604700 # 7 days in seconds
 stripe:
   secretKey: ${STRIPE_SECRET_KEY}
+  webhookSecretKey: ${STRIPE_WEBHOOK_SECRET_KEY}
 
 # made up front end client url
 websiteUrl: http://localhost:4242
