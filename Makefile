@@ -23,3 +23,16 @@ db-delete:
 # see plugins for other migration flyway commands (Section in VSCode beneath Java Projects)
 db-migrate:
 	mvn flyway:migrate
+
+
+### STRIPE TESTING
+
+stripe-login:
+	stripe login
+
+stripe-listen:
+	stripe listen --forward-to http://localhost:8080/checkout/webhook
+
+# TOOD make dynamic
+stripe-publish:
+	stripe trigger payment_intent.succeeded

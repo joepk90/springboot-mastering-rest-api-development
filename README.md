@@ -127,3 +127,7 @@ make jwt-secret
 
 ## JWT Inspection
 To inspect a JWT token the folling websote can be used: [jwt.io](https://jwt.io)
+
+
+# Stripe
+A webhook is used to manage the Stripe checkout flow. See the `stripe-testing.md` file for more info.
