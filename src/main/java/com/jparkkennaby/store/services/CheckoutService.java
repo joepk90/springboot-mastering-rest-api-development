@@ -2,6 +2,7 @@ package com.jparkkennaby.store.services;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.jparkkennaby.store.dtos.CheckoutRequest;
 import com.jparkkennaby.store.dtos.CheckoutResponse;
@@ -37,6 +38,20 @@ public class CheckoutService {
     @Value("${websiteUrl}")
     private String websiteUrl;
 
+    /**
+     * The checkout method is an Atomic Operation
+     * - The service has multiple operations that should all be completed
+     * together, or none of them should be completed.
+     * - To ensure this behavour, the Transactional annotation is required
+     * - The order method is initially saved, but if an exception is thrown, the
+     * order should be deleted.
+     * 
+     * @param request
+     * @return
+     * @throws StripeException
+     */
+
+    @Transactional
     public CheckoutResponse checkout(CheckoutRequest request) throws StripeException {
         var cart = cartRepository.getCartWithItems(request.getCartId()).orElse(null);
         if (cart == null) {
@@ -49,6 +64,9 @@ public class CheckoutService {
 
         var order = Order.fromCart(cart, authService.getCurrentUser());
 
+        // once the order has been saved, under the hood the persistance context gets
+        // closed and this order object becomes transient (or tempoarary). However later
+        // on we try to delete the order if a stripe exception occurs.
         orderRepository.save(order);
 
         try {
@@ -79,6 +97,10 @@ public class CheckoutService {
 
             return new CheckoutResponse(order.getId(), session.getUrl());
         } catch (StripeException ex) {
+            // without the atomic implemetation (Transactional annotation) of this method,
+            // at this moment the order object would be considered transient and unnattached
+            // to the persistance context. Adding the transactional annotation keeps the
+            // persistance context open for the entire lifecycle of the method
             orderRepository.delete(order);
             throw ex;
         }

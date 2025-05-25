@@ -34,7 +34,8 @@ public class Order {
     private BigDecimal totalPrice;
 
     // CascadeType.PERSIST = save the order items when an order gets saved
-    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
+    // CascadeType.REMOVE = remove the order items when an order gets removed
+    @OneToMany(mappedBy = "order", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private Set<OrderItem> items = new LinkedHashSet<>();
 
     public static Order fromCart(Cart cart, User customer) {
