@@ -30,6 +30,12 @@ Triggering a Stripe event (actual event)
 stripe trigger payment_intent.succeeded
 ```
 
+Triggering a Stripe event with custom data (actual event)
+```
+stripe trigger payment_intent.succeeded \
+--add 'payment_intent:metadata[order_id]=1'
+```
+
 ## Event Types:
 - `payment_intent.succeeded`
 - `payment_intent.failed`
