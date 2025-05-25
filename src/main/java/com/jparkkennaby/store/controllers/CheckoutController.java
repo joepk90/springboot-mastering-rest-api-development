@@ -21,11 +21,15 @@ import com.jparkkennaby.store.exceptions.PaymentException;
 import com.jparkkennaby.store.repositories.OrderRepository;
 import com.jparkkennaby.store.services.CheckoutService;
 import com.stripe.exception.SignatureVerificationException;
+import com.stripe.model.Event;
+import com.stripe.model.EventDataObjectDeserializer;
 import com.stripe.model.PaymentIntent;
+import com.stripe.model.StripeObject;
 import com.stripe.net.Webhook;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import com.stripe.exception.EventDataObjectDeserializationException;
 
 // RequiredArgsConstructor - spring will only initialise the fields declared as final
 
@@ -44,6 +48,26 @@ public class CheckoutController {
         return checkoutService.checkout(request);
     }
 
+    // custom code to deserialize the event to a StripeObject
+    public StripeObject getStripeObject(Event event) {
+        // Get the deserializer for the inner data object
+        EventDataObjectDeserializer deserializer = event.getDataObjectDeserializer();
+
+        // isPresent always returned false, to resolve this
+        // the deserializeUnsafe function (below) has been used
+        if (deserializer.getObject().isPresent()) {
+            // logic used in course (not working)
+            return event.getDataObjectDeserializer().getObject().orElse(null);
+        }
+
+        try {
+            return deserializer.deserializeUnsafe();
+        } catch (EventDataObjectDeserializationException e) {
+            // Handle the exception and return null or handle accordingly
+            return null;
+        }
+    }
+
     @PostMapping("/webhook")
     public ResponseEntity<Void> handleWebhook(
             @RequestHeader("Stripe-Signature") String signiture,
@@ -52,7 +76,8 @@ public class CheckoutController {
             var event = Webhook.constructEvent(payload, signiture, webhookSecretKey);
             System.out.println(event.getType());
 
-            var stripeObject = event.getDataObjectDeserializer().getObject().orElse(null);
+            // custom code (not in course)
+            StripeObject stripeObject = getStripeObject(event);
 
             /**
              * StripeObject is an Abstract Class
@@ -90,6 +115,12 @@ public class CheckoutController {
         } catch (SignatureVerificationException e) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    // custom exception handler (not in course)
+    @ExceptionHandler(EventDataObjectDeserializationException.class)
+    public ResponseEntity<ErrorDto> handlestripeDeserializationException(Exception ex) {
+        return ResponseEntity.badRequest().body(new ErrorDto(ex.getMessage()));
     }
 
     @ExceptionHandler(PaymentException.class)
