@@ -37,3 +37,7 @@ stripe trigger payment_intent.succeeded
 
 ## Viewing Events (transactions)
 https://dashboard.stripe.com/test/payments
+
+## Checking the API version
+Go to the following URL to check the latest version of the Stripe API:
+[dashboard.stripe.com/test/developers](https://dashboard.stripe.com/test/developers)
