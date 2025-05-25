@@ -1,5 +1,7 @@
 package com.jparkkennaby.store.services;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,7 +84,9 @@ public class CheckoutService {
                         .setPriceData(
                                 SessionCreateParams.LineItem.PriceData.builder()
                                         .setCurrency("usd")
-                                        .setUnitAmountDecimal(item.getUnitPrice())
+                                        .setUnitAmountDecimal(
+                                                item.getUnitPrice()
+                                                        .multiply(BigDecimal.valueOf(100)))
                                         .setProductData(
                                                 SessionCreateParams.LineItem.PriceData.ProductData.builder()
                                                         .setName(item.getProduct().getName()).build())
