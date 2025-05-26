@@ -7,6 +7,14 @@ install:
 compile:
 	rm -rf target && mvn clean compile
 
+# builds clean version of the package using maven (target/store-1.0.0.jar)
+build:
+	mvn clean package
+
+# runs the java build (untested / env vars required)
+run:
+	java -jar target/store-1.0.0.jar
+
 # use maven to run the springboot application
 dev:
 	./mvnw spring-boot:run
