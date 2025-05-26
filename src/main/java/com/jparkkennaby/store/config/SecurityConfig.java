@@ -62,7 +62,6 @@ public class SecurityConfig {
                 // Authorize specific requests
                 .authorizeHttpRequests(c -> c
                         .requestMatchers(HttpMethod.POST, "users/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "checkout/webhook").permitAll()
                         .anyRequest().authenticated())
                 // add the jwtAuthenticationFilter as early as possible in the filter chain
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
