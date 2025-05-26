@@ -66,8 +66,6 @@ public class SecurityConfig {
                         .requestMatchers("v3/api-docs/**").permitAll()
                         .requestMatchers("carts/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "users/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "auth/refresh").permitAll()
                         .requestMatchers(HttpMethod.POST, "checkout/webhook").permitAll()
                         .anyRequest().authenticated())
                 // add the jwtAuthenticationFilter as early as possible in the filter chain
