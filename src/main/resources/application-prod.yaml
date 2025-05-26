@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+
+# made up front end client url
+websiteUrl: https://mystore.com
