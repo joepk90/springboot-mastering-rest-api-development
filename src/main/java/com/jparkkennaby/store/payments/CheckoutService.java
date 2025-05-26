@@ -13,6 +13,16 @@ import com.jparkkennaby.store.services.CartService;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * RequiredArgsConstructor annotation is used to handle the websiteUrl property
+ * - As there is no bean of type String, spring doesn't know what to use to
+ * initialise the websiteUrl property with
+ * - using RequiredArgsConstructor means spring will only initialise the fields
+ * declared as final
+ * - The Value annotation will then kick in and provide the configuration
+ * setting
+ */
+
 @RequiredArgsConstructor
 @Service
 public class CheckoutService {
