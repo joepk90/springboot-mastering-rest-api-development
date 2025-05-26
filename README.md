@@ -129,5 +129,10 @@ make jwt-secret
 To inspect a JWT token the folling websote can be used: [jwt.io](https://jwt.io)
 
 
-# Stripe
-A webhook is used to manage the Stripe checkout flow. See the `stripe-testing.md` file for more info.
+# How to Use/Test the API
+
+## Testing
+To get an understanding of the basic endpoints and the payment flow, see the following [testing.md](https://github.com/joepk90/springboot-mastering-rest-api-development/blob/main/testing.md) file.
+
+## Stripe
+A webhook is used to manage the Stripe checkout flow. See the [stripe-testing.md](https://github.com/joepk90/springboot-mastering-rest-api-development/blob/main/stripe-testing.md) file for more info.
