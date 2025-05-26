@@ -2,7 +2,6 @@ package com.jparkkennaby.store.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -61,7 +60,6 @@ public class SecurityConfig {
 
                 // Authorize specific requests
                 .authorizeHttpRequests(c -> c
-                        .requestMatchers(HttpMethod.POST, "users/**").permitAll()
                         .anyRequest().authenticated())
                 // add the jwtAuthenticationFilter as early as possible in the filter chain
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
