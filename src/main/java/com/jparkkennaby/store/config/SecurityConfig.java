@@ -61,9 +61,6 @@ public class SecurityConfig {
 
                 // Authorize specific requests
                 .authorizeHttpRequests(c -> c
-                        .requestMatchers("swagger-ui/**").permitAll()
-                        .requestMatchers("swagger-ui.html").permitAll()
-                        .requestMatchers("v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "users/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "checkout/webhook").permitAll()
                         .anyRequest().authenticated())
