@@ -1,5 +1,7 @@
 package com.jparkkennaby.store.config;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,7 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.jparkkennaby.store.filters.JwtAuthenticationFilter;
+import com.jparkkennaby.store.security.SecurtyRules;
 
 import lombok.AllArgsConstructor;
 
@@ -28,6 +31,11 @@ import lombok.AllArgsConstructor;
 public class SecurityConfig {
     private final UserDetailsService userDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    // at runtime, springboot will initialise SecurtyRules list with instances of
+    // any classes that implement the SecurtyRules interface and are marked as beans
+    // (using the @Component annotation).
+    private final List<SecurtyRules> featureSecurtyRules;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -59,8 +67,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
 
                 // Authorize specific requests
-                .authorizeHttpRequests(c -> c
-                        .anyRequest().authenticated())
+                .authorizeHttpRequests(c -> {
+                    // configure the security rules defined the security package
+                    featureSecurtyRules.forEach(r -> r.configure(c));
+                    c.anyRequest().authenticated();
+                })
                 // add the jwtAuthenticationFilter as early as possible in the filter chain
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(c -> {
