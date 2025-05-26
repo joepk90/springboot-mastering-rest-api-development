@@ -6,6 +6,7 @@ spring:
     accessTokenExpiration: 300 # 5 minutes in seconds
     refreshTokenExpiration: 604700 # 7 days in seconds
   profiles:
+    # profile can be set using a default springboot environment: SPRING_PROFILES_ACTIVE
     active: dev
 stripe:
   secretKey: ${STRIPE_SECRET_KEY}
