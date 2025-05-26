@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.services;
+package com.jparkkennaby.store.payments;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.services;
+package com.jparkkennaby.store.payments;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.jparkkennaby.store.entities.Order;
 import com.jparkkennaby.store.entities.OrderItem;
 import com.jparkkennaby.store.entities.PaymentStatus;
-import com.jparkkennaby.store.exceptions.PaymentException;
 import com.stripe.exception.EventDataObjectDeserializationException;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;

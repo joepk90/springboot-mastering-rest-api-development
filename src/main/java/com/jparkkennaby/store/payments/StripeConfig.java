@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.config;
+package com.jparkkennaby.store.payments;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

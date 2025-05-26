@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.exceptions;
+package com.jparkkennaby.store.payments;
 
 import lombok.NoArgsConstructor;
 

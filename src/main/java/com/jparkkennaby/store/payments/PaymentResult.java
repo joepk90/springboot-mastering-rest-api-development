@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.services;
+package com.jparkkennaby.store.payments;
 
 import com.jparkkennaby.store.entities.PaymentStatus;
 

@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.controllers;
+package com.jparkkennaby.store.payments;
 
 import java.util.Map;
 
@@ -12,14 +12,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jparkkennaby.store.dtos.CheckoutRequest;
-import com.jparkkennaby.store.dtos.CheckoutResponse;
 import com.jparkkennaby.store.dtos.ErrorDto;
 import com.jparkkennaby.store.exceptions.CartEmptyException;
 import com.jparkkennaby.store.exceptions.CartNotFoundException;
-import com.jparkkennaby.store.exceptions.PaymentException;
-import com.jparkkennaby.store.services.CheckoutService;
-import com.jparkkennaby.store.services.WebhookRequest;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
