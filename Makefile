@@ -24,6 +24,10 @@ run:
 dev:
 	./mvnw spring-boot:run
 
+# runs the application using the application-test.yaml file (seeding tests)
+dev-test:
+	./mvnw spring-boot:run -Dspring-boot.run.profiles=test
+
 db-start:
 	docker-compose up -d
 
