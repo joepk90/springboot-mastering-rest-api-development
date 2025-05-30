@@ -34,3 +34,11 @@ services:
 volumes:
     springboot_mastering_rest_api_development_volume:
       driver: local
+
+
+# docker-compose will always create a network, just implicity (under the hood).
+# To see the network run: docker network ls
+# network has been defined explicity for connections made using docker (see docker-run make command)
+networks:
+  default:
+    name: springboot_mastering_rest_api_network

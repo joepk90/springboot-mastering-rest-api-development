@@ -1,3 +1,8 @@
+# DOCKER_NETWORK = docker-compose network
+DOCKER_NETWORK=springboot_mastering_rest_api_network
+MYSQL_CONTAINER=springboot_rest_api_development_mysql
+SPRING_BOOT_STORE=springboot-store
+
 jwt-secret:
 	openssl rand -base64 64
 
@@ -44,3 +49,21 @@ stripe-listen:
 # TOOD make dynamic
 stripe-publish:
 	stripe trigger payment_intent.succeeded
+
+
+# DOCKER
+
+docker-build:
+	docker build -t ${SPRING_BOOT_STORE} .
+
+# primarily used for PROD image testing	
+docker-run:
+	docker run \
+	--env-file .env \
+	--network ${DOCKER_NETWORK} \
+	-p 8080:8080 \
+	-e SPRING_PROFILES_ACTIVE=prod \
+	-e SPRING_DATASOURCE_URL="jdbc:mysql://dbuser:dbpw@${MYSQL_CONTAINER}:3306/store_api?createDatabaseIfNotExist=true" \
+	${SPRING_BOOT_STORE}
+
+
