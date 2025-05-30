@@ -12,6 +12,8 @@ public class PaymentSecurityRules implements SecurtyRules {
     public void configure(
             AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry registry) {
         registry
+
+                .requestMatchers(HttpMethod.POST, "/checkout").permitAll()
                 .requestMatchers(HttpMethod.POST, "/checkout/webhook").permitAll();
     }
 }
