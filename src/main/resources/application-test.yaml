@@ -1,0 +1,11 @@
+# used for testing database without affecting your working database (i.e. the seeding script)
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:8306/store_api_test?createDatabaseIfNotExist=true
+    username: dbuser_test
+    password: dbpw_test
+  jpa:
+    show-sql: true # show sql statements being run
+
+# made up front end client url
+websiteUrl: http://localhost:4242
