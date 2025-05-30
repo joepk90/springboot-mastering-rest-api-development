@@ -12,6 +12,7 @@ public class AuthSecurityRules implements SecurtyRules {
     public void configure(
             AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry registry) {
         registry
+                .requestMatchers(HttpMethod.GET, "/auth/me").permitAll()
                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/auth/refresh").permitAll();
     }
