@@ -75,13 +75,14 @@ public class MaxTableSizeAspect {
     }
 
     public void performCheck(MaxTableSizeCheck maxSizeCheck) {
+
         Class<?> entityClass = maxSizeCheck.entity();
         String name = entityClass.getSimpleName();
 
         Long count = entityManager.createQuery(
                 "SELECT COUNT(e) FROM " + name + " e", Long.class).getSingleResult();
 
-        int limit = tableLimitConfig.getLimit(name);
+        int limit = tableLimitConfig.getLimit(name.toLowerCase());
 
         if (count >= limit) {
             throw new MaxTableRecordLimitReached("Max record limit (" + limit + ") for entity " + name + " reached.");

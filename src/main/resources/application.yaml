@@ -11,8 +11,9 @@ spring:
   # Table record limits (See: TableLimitConfig class and MaxTableSizeAspect)
   limits:
     order: 25
-    cartItem: 200
-    orderItem: 200
+    orderitem: 200
+    cart: 25
+    cartitem: 200
     category: 20
     product: 20
     profile: 20
