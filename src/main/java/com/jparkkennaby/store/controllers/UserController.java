@@ -1,10 +1,12 @@
 package com.jparkkennaby.store.controllers;
 
+import com.jparkkennaby.store.annoations.MaxTableSizeCheck;
 import com.jparkkennaby.store.dtos.ChangePasswordRequest;
 import com.jparkkennaby.store.dtos.RegisterUserRequest;
 import com.jparkkennaby.store.dtos.UpdateUserRequest;
 import com.jparkkennaby.store.dtos.UserDto;
 import com.jparkkennaby.store.entities.Role;
+import com.jparkkennaby.store.entities.User;
 import com.jparkkennaby.store.mappers.UserMapper;
 import com.jparkkennaby.store.repositories.UserRepository;
 
@@ -33,6 +35,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @AllArgsConstructor
+@MaxTableSizeCheck(entity = User.class)
 @RequestMapping("/users")
 public class UserController {
     private final UserRepository userRepository;
