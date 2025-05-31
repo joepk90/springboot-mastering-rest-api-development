@@ -8,6 +8,18 @@ spring:
   profiles:
     # profile can be set using a default springboot environment: SPRING_PROFILES_ACTIVE
     active: dev
+  # Table record limits (See: TableLimitConfig class and MaxTableSizeAspect)
+  limits:
+    order: 25
+    orderitem: 200
+    cart: 25
+    cartitem: 200
+    category: 20
+    product: 20
+    profile: 20
+    user: 20
+    address: 20
+
 stripe:
   secretKey: ${STRIPE_SECRET_KEY}
   webhookSecretKey: ${STRIPE_WEBHOOK_SECRET_KEY}

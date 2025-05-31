@@ -19,6 +19,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.jparkkennaby.store.dtos.CartDto;
 import com.jparkkennaby.store.dtos.CartItemDto;
 import com.jparkkennaby.store.dtos.UpdateCartItemRequest;
+import com.jparkkennaby.store.entities.Cart;
+import com.jparkkennaby.store.entities.CartItem;
+import com.jparkkennaby.store.annoations.MaxTableSizeCheck;
 import com.jparkkennaby.store.dtos.AddItemToCartRequestDto;
 import com.jparkkennaby.store.exceptions.CartNotFoundException;
 import com.jparkkennaby.store.exceptions.ProductNotFoundException;
@@ -37,6 +40,7 @@ import lombok.AllArgsConstructor;
 public class CartController {
     private final CartService cartService;
 
+    @MaxTableSizeCheck(entity = Cart.class)
     @PostMapping
     public ResponseEntity<CartDto> createCart(UriComponentsBuilder uriBuilder) {
         var cartDto = cartService.createCart();
@@ -45,6 +49,7 @@ public class CartController {
         return ResponseEntity.created(uri).body(cartDto);
     }
 
+    @MaxTableSizeCheck(entity = CartItem.class)
     @PostMapping("/{cartId}/items")
     @Operation(summary = "Adds a product to the cart.")
     public ResponseEntity<CartItemDto> addToCart(

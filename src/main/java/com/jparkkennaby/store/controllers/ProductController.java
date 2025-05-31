@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.jparkkennaby.store.annoations.MaxTableSizeCheck;
 import com.jparkkennaby.store.dtos.ProductDto;
-
 import com.jparkkennaby.store.entities.Product;
 import com.jparkkennaby.store.mappers.ProductMapper;
 import com.jparkkennaby.store.repositories.ProductRepository;
@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @AllArgsConstructor
+@MaxTableSizeCheck(entity = Product.class)
 @RequestMapping("/products")
 public class ProductController {
     private final ProductRepository productRepository;
