@@ -1,5 +1,5 @@
 # Stripe
-To test the Stripe Webhook logic, the Stripe CLI is used.
+To test the Stripe Webhook logic locally, the Stripe CLI is used.
 
 ## Setup Stripe
 
