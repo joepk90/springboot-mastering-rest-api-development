@@ -1,7 +1,9 @@
 spring:
   datasource:
     # prefix the url with `jdbc:` so that hybernate can use it
-    url: ${SPRING_DATASOURCE_URL}
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
 
 # made up front end client url
 websiteUrl: https://mystore.com
