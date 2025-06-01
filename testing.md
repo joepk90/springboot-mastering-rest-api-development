@@ -166,6 +166,12 @@ To better understand the Checkout flow, watch the [Payment Processing - Overview
 
 All this takes place once a request has been made to the `/checkout endpoint`. If there is a payment exception, the application state will be reverted the existing Cart will be untouched. If the request passes, and an paymnet is made, the Cart will be cleared if items. To understand this logic better, see the `CheckoutService` class.
 
+To make a payment the following details can be used:
+- Card Number: `4242 4242 4242 4242`
+- Expiration Date: Any date in the future
+- CVV Code: Anything
+
+
 ### Orders
 
 **Getting Orders**
