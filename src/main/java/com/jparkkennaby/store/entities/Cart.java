@@ -10,6 +10,9 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import org.hibernate.type.SqlTypes;
+import org.hibernate.annotations.JdbcTypeCode;
+
 @Getter
 @Setter
 @Entity
@@ -17,14 +20,20 @@ import java.util.UUID;
 public class Cart {
 
     @Id
+    @JdbcTypeCode(SqlTypes.VARCHAR) // tells spring/hybernate to store as VARCHAR, not binary
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     private UUID id;
 
-    // insertable/updatable set to false because they are auto geenrated in the
-    // database
-    @Column(name = "date_created", insertable = false, updatable = false)
+    @Column(name = "date_created", updatable = false)
     private LocalDate dateCreated;
+
+    @PrePersist
+    public void prePersist() {
+        if (dateCreated == null) {
+            dateCreated = LocalDate.now();
+        }
+    }
 
     // orphanRemoval (true): deletes the cart item record if becomes orhpaned
     @OneToMany(mappedBy = "cart", cascade = CascadeType.MERGE, orphanRemoval = true, fetch = FetchType.EAGER)
