@@ -136,3 +136,20 @@ To get an understanding of the basic endpoints and the payment flow, see the fol
 
 ## Stripe
 A webhook is used to manage the Stripe checkout flow. See the [stripe-testing.md](https://github.com/joepk90/springboot-mastering-rest-api-development/blob/main/stripe-testing.md) file for more info.
+
+The Webhook Signing Secret can be found here:
+[dashboard.stripe.com/test/webhooks/](https://dashboard.stripe.com/test/webhooks/we_1RVFedF99b23CaumS8hFrzF9)
+
+
+# Seeding the Database
+To seed the database with a default dataset (categories, products, users), make a `GET` request to the Seed endpoint:
+```
+/seed
+```
+
+The data is generated using Faker. A single User is created that can be used to authenticate:
+- Email: johnsmith@gmail.com
+- Password: 123456
+
+
+
