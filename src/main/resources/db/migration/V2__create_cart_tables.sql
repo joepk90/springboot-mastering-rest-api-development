@@ -1,13 +1,13 @@
 create table carts
 (
-    id           binary(16) default (uuid_to_bin(uuid())) not null primary key,
-    date_created date default (curdate()) not null
+    id           varchar(36) not null primary key,
+    date_created date not null
 );
 
 create table cart_items
 (
      id         bigint auto_increment primary key,
-     cart_id    binary(16)    not null,
+     cart_id    varchar(36)   not null,
      product_id bigint        not null,
      quantity   int default 1 not null,
     constraint cart_items_cart_product_unique unique (cart_id, product_id),
