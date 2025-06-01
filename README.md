@@ -112,7 +112,7 @@ Let each command complete before running the next. Also the `make dev` command m
 # API Documentation (Swagger)
 To see the availabe API endpoints, go to: [localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html).
 
-For more deails, see the documentation at [springdoc.org](https://springdoc.org/#getting-started).
+For more deails, see the documentation at [springdoc.org](https://springdoc.org/#swagger-ui-configuration).
 
 
 # Application Configuration
