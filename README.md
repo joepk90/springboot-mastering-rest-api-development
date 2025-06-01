@@ -112,7 +112,7 @@ Let each command complete before running the next. Also the `make dev` command m
 # API Documentation (Swagger)
 To see the availabe API endpoints, go to: [localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html).
 
-For more deails, see the documentation at [springdoc.org](https://springdoc.org/#getting-started).
+For more deails, see the documentation at [springdoc.org](https://springdoc.org/#swagger-ui-configuration).
 
 
 # Application Configuration
@@ -136,3 +136,20 @@ To get an understanding of the basic endpoints and the payment flow, see the fol
 
 ## Stripe
 A webhook is used to manage the Stripe checkout flow. See the [stripe-testing.md](https://github.com/joepk90/springboot-mastering-rest-api-development/blob/main/stripe-testing.md) file for more info.
+
+The Webhook Signing Secret can be found here:
+[dashboard.stripe.com/test/webhooks/](https://dashboard.stripe.com/test/webhooks/we_1RVFedF99b23CaumS8hFrzF9)
+
+
+# Seeding the Database
+To seed the database with a default dataset (categories, products, users), make a `GET` request to the Seed endpoint:
+```
+/seed
+```
+
+The data is generated using Faker. A single User is created that can be used to authenticate:
+- Email: johnsmith@gmail.com
+- Password: 123456
+
+
+
