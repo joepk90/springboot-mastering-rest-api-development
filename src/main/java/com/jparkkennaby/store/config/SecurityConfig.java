@@ -35,7 +35,7 @@ public class SecurityConfig {
     // at runtime, springboot will initialise SecurtyRules list with instances of
     // any classes that implement the SecurtyRules interface and are marked as beans
     // (using the @Component annotation).
-    private final List<SecurityRules> featureSecurtyRules;
+    private final List<SecurityRules> featureSecurityRules;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -69,7 +69,7 @@ public class SecurityConfig {
                 // Authorize specific requests
                 .authorizeHttpRequests(c -> {
                     // configure the security rules defined the security package
-                    featureSecurtyRules.forEach(r -> r.configure(c));
+                    featureSecurityRules.forEach(r -> r.configure(c));
                     c.anyRequest().authenticated();
                 })
                 // add the jwtAuthenticationFilter as early as possible in the filter chain
