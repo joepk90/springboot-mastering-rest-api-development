@@ -6,7 +6,7 @@ import org.springframework.security.config.annotation.web.configurers.AuthorizeH
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserSecurityRules implements SecurtyRules {
+public class UserSecurityRules implements SecurityRules {
 
     @Override
     public void configure(

@@ -5,7 +5,7 @@ import org.springframework.security.config.annotation.web.configurers.AuthorizeH
 import org.springframework.stereotype.Component;
 
 @Component
-public class SwaggerSecurityRules implements SecurtyRules {
+public class SwaggerSecurityRules implements SecurityRules {
 
     @Override
     public void configure(

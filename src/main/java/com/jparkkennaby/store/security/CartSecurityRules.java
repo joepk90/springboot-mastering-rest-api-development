@@ -5,7 +5,7 @@ import org.springframework.security.config.annotation.web.configurers.AuthorizeH
 import org.springframework.stereotype.Component;
 
 @Component
-public class CartSecurityRules implements SecurtyRules {
+public class CartSecurityRules implements SecurityRules {
 
     @Override
     public void configure(

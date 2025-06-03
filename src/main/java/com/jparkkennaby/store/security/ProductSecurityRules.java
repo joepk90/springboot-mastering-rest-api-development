@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.jparkkennaby.store.entities.Role;
 
 @Component
-public class ProductSecurityRules implements SecurtyRules {
+public class ProductSecurityRules implements SecurityRules {
 
     @Override
     public void configure(

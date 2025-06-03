@@ -6,7 +6,7 @@ import org.springframework.security.config.annotation.web.configurers.AuthorizeH
 import org.springframework.stereotype.Component;
 
 @Component
-public class PaymentSecurityRules implements SecurtyRules {
+public class PaymentSecurityRules implements SecurityRules {
 
     @Override
     public void configure(

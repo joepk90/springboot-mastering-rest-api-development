@@ -21,7 +21,7 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.jparkkennaby.store.filters.JwtAuthenticationFilter;
-import com.jparkkennaby.store.security.SecurtyRules;
+import com.jparkkennaby.store.security.SecurityRules;
 
 import lombok.AllArgsConstructor;
 
@@ -35,7 +35,7 @@ public class SecurityConfig {
     // at runtime, springboot will initialise SecurtyRules list with instances of
     // any classes that implement the SecurtyRules interface and are marked as beans
     // (using the @Component annotation).
-    private final List<SecurtyRules> featureSecurtyRules;
+    private final List<SecurityRules> featureSecurtyRules;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
