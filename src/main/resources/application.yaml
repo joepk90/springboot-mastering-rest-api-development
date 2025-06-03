@@ -19,6 +19,8 @@ spring:
     profile: 20
     user: 20
     address: 20
+    # message limit not working (endpoints created using RepositoryRestResource)
+    message: 15
 
 stripe:
   secretKey: ${STRIPE_SECRET_KEY}
