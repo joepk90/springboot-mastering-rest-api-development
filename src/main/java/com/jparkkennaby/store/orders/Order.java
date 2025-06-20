@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.entities;
+package com.jparkkennaby.store.orders;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

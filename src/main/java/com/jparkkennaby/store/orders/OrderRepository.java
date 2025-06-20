@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.repositories;
+package com.jparkkennaby.store.orders;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.jparkkennaby.store.entities.Order;
 import com.jparkkennaby.store.users.User;
 
 // get prefix is used to reprent custom loading of extra objects

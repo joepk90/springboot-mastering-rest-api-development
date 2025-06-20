@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.controllers;
+package com.jparkkennaby.store.orders;
 
 import java.util.List;
 
@@ -13,10 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jparkkennaby.store.annoations.MaxTableSizeCheck;
 import com.jparkkennaby.store.dtos.ErrorDto;
-import com.jparkkennaby.store.dtos.OrderDto;
-import com.jparkkennaby.store.entities.Order;
-import com.jparkkennaby.store.exceptions.OrderNotFoundException;
-import com.jparkkennaby.store.services.OrderService;
 
 import lombok.AllArgsConstructor;
 

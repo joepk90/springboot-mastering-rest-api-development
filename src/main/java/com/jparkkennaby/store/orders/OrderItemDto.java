@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.dtos;
+package com.jparkkennaby.store.orders;
 
 import java.math.BigDecimal;
 
@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class OrderItemDto {
-    private OrderProductDto product;
+    private ProductDto product;
     private int quantity;
     private BigDecimal totalPrice;
 }
