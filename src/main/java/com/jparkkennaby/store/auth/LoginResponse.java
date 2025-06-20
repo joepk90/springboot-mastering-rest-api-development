@@ -1,6 +1,4 @@
-package com.jparkkennaby.store.dtos;
-
-import com.jparkkennaby.store.auth.Jwt;
+package com.jparkkennaby.store.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

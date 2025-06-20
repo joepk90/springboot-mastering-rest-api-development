@@ -6,7 +6,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.jparkkennaby.store.dtos.LoginResponse;
 import com.jparkkennaby.store.users.User;
 import com.jparkkennaby.store.users.UserRepository;
 
