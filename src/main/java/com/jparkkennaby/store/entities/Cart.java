@@ -11,6 +11,9 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.hibernate.type.SqlTypes;
+
+import com.jparkkennaby.store.products.Product;
+
 import org.hibernate.annotations.JdbcTypeCode;
 
 @Getter

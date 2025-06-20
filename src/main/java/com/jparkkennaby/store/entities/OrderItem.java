@@ -2,6 +2,8 @@ package com.jparkkennaby.store.entities;
 
 import java.math.BigDecimal;
 
+import com.jparkkennaby.store.products.Product;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,12 +1,10 @@
-package com.jparkkennaby.store.repositories;
+package com.jparkkennaby.store.products;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
-import com.jparkkennaby.store.entities.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
     @EntityGraph(attributePaths = "category")

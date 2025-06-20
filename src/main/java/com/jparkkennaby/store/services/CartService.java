@@ -8,10 +8,10 @@ import com.jparkkennaby.store.dtos.CartDto;
 import com.jparkkennaby.store.dtos.CartItemDto;
 import com.jparkkennaby.store.entities.Cart;
 import com.jparkkennaby.store.exceptions.CartNotFoundException;
-import com.jparkkennaby.store.exceptions.ProductNotFoundException;
 import com.jparkkennaby.store.mappers.CartMapper;
+import com.jparkkennaby.store.products.ProductNotFoundException;
+import com.jparkkennaby.store.products.ProductRepository;
 import com.jparkkennaby.store.repositories.CartRepository;
-import com.jparkkennaby.store.repositories.ProductRepository;
 
 import lombok.AllArgsConstructor;
 

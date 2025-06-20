@@ -24,7 +24,7 @@ import com.jparkkennaby.store.entities.CartItem;
 import com.jparkkennaby.store.annoations.MaxTableSizeCheck;
 import com.jparkkennaby.store.dtos.AddItemToCartRequestDto;
 import com.jparkkennaby.store.exceptions.CartNotFoundException;
-import com.jparkkennaby.store.exceptions.ProductNotFoundException;
+import com.jparkkennaby.store.products.ProductNotFoundException;
 import com.jparkkennaby.store.services.CartService;
 
 import io.swagger.v3.oas.annotations.Operation;

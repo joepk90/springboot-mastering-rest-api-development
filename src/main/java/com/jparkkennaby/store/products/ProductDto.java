@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.dtos;
+package com.jparkkennaby.store.products;
 
 import java.math.BigDecimal;
 import lombok.Data;

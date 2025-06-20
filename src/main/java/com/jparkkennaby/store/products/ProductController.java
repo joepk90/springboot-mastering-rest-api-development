@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.controllers;
+package com.jparkkennaby.store.products;
 
 import lombok.AllArgsConstructor;
 
@@ -6,11 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.jparkkennaby.store.annoations.MaxTableSizeCheck;
-import com.jparkkennaby.store.dtos.ProductDto;
-import com.jparkkennaby.store.entities.Product;
-import com.jparkkennaby.store.mappers.ProductMapper;
-import com.jparkkennaby.store.repositories.ProductRepository;
-import com.jparkkennaby.store.repositories.CategoryRepository;
 
 import java.util.List;
 
