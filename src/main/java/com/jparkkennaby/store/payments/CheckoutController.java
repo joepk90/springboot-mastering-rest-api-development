@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jparkkennaby.store.carts.CartEmptyException;
+import com.jparkkennaby.store.carts.CartNotFoundException;
 import com.jparkkennaby.store.dtos.ErrorDto;
-import com.jparkkennaby.store.exceptions.CartEmptyException;
-import com.jparkkennaby.store.exceptions.CartNotFoundException;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

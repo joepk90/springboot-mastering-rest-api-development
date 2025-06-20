@@ -1,17 +1,11 @@
-package com.jparkkennaby.store.services;
+package com.jparkkennaby.store.carts;
 
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.jparkkennaby.store.dtos.CartDto;
-import com.jparkkennaby.store.dtos.CartItemDto;
-import com.jparkkennaby.store.entities.Cart;
-import com.jparkkennaby.store.exceptions.CartNotFoundException;
-import com.jparkkennaby.store.mappers.CartMapper;
 import com.jparkkennaby.store.products.ProductNotFoundException;
 import com.jparkkennaby.store.products.ProductRepository;
-import com.jparkkennaby.store.repositories.CartRepository;
 
 import lombok.AllArgsConstructor;
 

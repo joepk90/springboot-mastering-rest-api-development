@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.dtos;
+package com.jparkkennaby.store.carts;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

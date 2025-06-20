@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.controllers;
+package com.jparkkennaby.store.carts;
 
 import java.util.Map;
 import java.util.UUID;
@@ -16,16 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.jparkkennaby.store.dtos.CartDto;
-import com.jparkkennaby.store.dtos.CartItemDto;
-import com.jparkkennaby.store.dtos.UpdateCartItemRequest;
-import com.jparkkennaby.store.entities.Cart;
-import com.jparkkennaby.store.entities.CartItem;
 import com.jparkkennaby.store.annoations.MaxTableSizeCheck;
-import com.jparkkennaby.store.dtos.AddItemToCartRequestDto;
-import com.jparkkennaby.store.exceptions.CartNotFoundException;
 import com.jparkkennaby.store.products.ProductNotFoundException;
-import com.jparkkennaby.store.services.CartService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
