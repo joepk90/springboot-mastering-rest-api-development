@@ -1,19 +1,27 @@
 package com.jparkkennaby.store.aspects;
 
 import com.jparkkennaby.store.annoations.ValidateJwt;
+import com.jparkkennaby.store.dtos.ErrorDto;
+import com.jparkkennaby.store.entities.Role;
 import com.jparkkennaby.store.services.JwtService;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.server.ResponseStatusException;
+
+/**
+ * Example Usage
+ * 
+ * @ValidateJwt({ Role.USER })
+ */
 
 @Aspect
 @Component
@@ -38,6 +46,7 @@ public class JwtValidationAspect {
         }
 
         String auth = request.getHeader("Authorization");
+
         if (auth == null || !auth.startsWith("Bearer ")) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Missing or invalid Authorization header");
         }
@@ -47,11 +56,15 @@ public class JwtValidationAspect {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid JWT token");
         }
 
-        String username = jwtService.getUserName(token);
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Role role = jwtService.getRole(token);
 
-        if (!(principal instanceof UserDetails userDetails) || !username.equals(userDetails.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "JWT does not match authenticated user");
+        Role[] requiredRoles = validateJwt.value();
+
+        boolean hasRequiredRole = Arrays.asList(requiredRoles).contains(role);
+
+        if (!hasRequiredRole) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(new ErrorDto("User does not have permission"));
         }
 
         // Token is valid – proceed
