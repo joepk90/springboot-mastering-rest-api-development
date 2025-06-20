@@ -5,6 +5,7 @@ import java.util.Date;
 import org.springframework.stereotype.Service;
 
 import com.jparkkennaby.store.config.JwtConfig;
+import com.jparkkennaby.store.entities.Role;
 import com.jparkkennaby.store.entities.User;
 
 import io.jsonwebtoken.Claims;
@@ -68,5 +69,10 @@ public class JwtService {
         } catch (JwtException e) {
             return false;
         }
+    }
+
+    public Role getRole(String token) {
+        var jwt = parseToken(token);
+        return jwt.getRole();
     }
 }
