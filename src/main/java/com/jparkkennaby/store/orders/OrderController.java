@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jparkkennaby.store.annoations.MaxTableSizeCheck;
-import com.jparkkennaby.store.dtos.ErrorDto;
+import com.jparkkennaby.store.common.ErrorDto;
 
 import lombok.AllArgsConstructor;
 

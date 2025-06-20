@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.filters;
+package com.jparkkennaby.store.common;
 
 import java.io.IOException;
 

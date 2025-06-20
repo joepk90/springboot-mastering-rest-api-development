@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.dtos;
+package com.jparkkennaby.store.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

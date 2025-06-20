@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jparkkennaby.store.carts.CartEmptyException;
 import com.jparkkennaby.store.carts.CartNotFoundException;
-import com.jparkkennaby.store.dtos.ErrorDto;
+import com.jparkkennaby.store.common.ErrorDto;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
