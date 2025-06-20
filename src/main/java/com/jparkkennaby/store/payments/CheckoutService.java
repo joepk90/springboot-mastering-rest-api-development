@@ -3,7 +3,7 @@ package com.jparkkennaby.store.payments;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jparkkennaby.store.services.AuthService;
+import com.jparkkennaby.store.auth.AuthService;
 import com.jparkkennaby.store.entities.Order;
 import com.jparkkennaby.store.exceptions.CartEmptyException;
 import com.jparkkennaby.store.exceptions.CartNotFoundException;

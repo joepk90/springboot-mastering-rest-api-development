@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.jparkkennaby.store.auth.AuthService;
 import com.jparkkennaby.store.dtos.OrderDto;
 import com.jparkkennaby.store.exceptions.OrderNotFoundException;
 import com.jparkkennaby.store.mappers.OrdersMapper;

@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.config;
+package com.jparkkennaby.store.auth;
 
 import javax.crypto.SecretKey;
 

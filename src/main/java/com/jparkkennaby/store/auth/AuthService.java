@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.services;
+package com.jparkkennaby.store.auth;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -6,7 +6,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.jparkkennaby.store.dtos.LoginRequest;
 import com.jparkkennaby.store.dtos.LoginResponse;
 import com.jparkkennaby.store.users.User;
 import com.jparkkennaby.store.users.UserRepository;

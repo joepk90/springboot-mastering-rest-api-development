@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.config;
+package com.jparkkennaby.store.auth;
 
 import java.util.List;
 
@@ -20,7 +20,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.jparkkennaby.store.filters.JwtAuthenticationFilter;
 import com.jparkkennaby.store.security.SecurityRules;
 
 import lombok.AllArgsConstructor;

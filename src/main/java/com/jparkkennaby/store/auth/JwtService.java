@@ -1,10 +1,9 @@
-package com.jparkkennaby.store.services;
+package com.jparkkennaby.store.auth;
 
 import java.util.Date;
 
 import org.springframework.stereotype.Service;
 
-import com.jparkkennaby.store.config.JwtConfig;
 import com.jparkkennaby.store.users.User;
 
 import io.jsonwebtoken.Claims;

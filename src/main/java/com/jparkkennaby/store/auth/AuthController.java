@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.controllers;
+package com.jparkkennaby.store.auth;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,11 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jparkkennaby.store.config.JwtConfig;
-import com.jparkkennaby.store.dtos.JwtResponse;
-import com.jparkkennaby.store.dtos.LoginRequest;
-import com.jparkkennaby.store.services.AuthService;
-import com.jparkkennaby.store.services.JwtService;
 import com.jparkkennaby.store.users.UserDto;
 import com.jparkkennaby.store.users.UserMapper;
 
