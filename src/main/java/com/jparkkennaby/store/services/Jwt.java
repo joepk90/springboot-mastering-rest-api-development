@@ -4,7 +4,7 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
-import com.jparkkennaby.store.entities.Role;
+import com.jparkkennaby.store.users.Role;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

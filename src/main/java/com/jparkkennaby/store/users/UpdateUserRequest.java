@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.dtos;
+package com.jparkkennaby.store.users;
 
 public class UpdateUserRequest {
     public String name;

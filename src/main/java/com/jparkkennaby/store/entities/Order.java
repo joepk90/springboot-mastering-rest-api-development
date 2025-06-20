@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import com.jparkkennaby.store.users.User;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

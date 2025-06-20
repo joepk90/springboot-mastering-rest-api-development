@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jparkkennaby.store.config.JwtConfig;
 import com.jparkkennaby.store.dtos.JwtResponse;
 import com.jparkkennaby.store.dtos.LoginRequest;
-import com.jparkkennaby.store.dtos.UserDto;
-import com.jparkkennaby.store.mappers.UserMapper;
 import com.jparkkennaby.store.services.AuthService;
 import com.jparkkennaby.store.services.JwtService;
+import com.jparkkennaby.store.users.UserDto;
+import com.jparkkennaby.store.users.UserMapper;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,8 +1,6 @@
-package com.jparkkennaby.store.repositories;
+package com.jparkkennaby.store.users;
 
 import org.springframework.data.repository.CrudRepository;
-
-import com.jparkkennaby.store.entities.Address;
 
 public interface AddressRepository extends CrudRepository<Address, Long> {
 }

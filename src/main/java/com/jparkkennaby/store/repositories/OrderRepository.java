@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.jparkkennaby.store.entities.Order;
-import com.jparkkennaby.store.entities.User;
+import com.jparkkennaby.store.users.User;
 
 // get prefix is used to reprent custom loading of extra objects
 // note: get does not actually affect the query logic, just used to represent customisation

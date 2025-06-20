@@ -1,13 +1,8 @@
-package com.jparkkennaby.store.mappers;
+package com.jparkkennaby.store.users;
 
 import org.mapstruct.Mapper;
 // import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-
-import com.jparkkennaby.store.dtos.RegisterUserRequest;
-import com.jparkkennaby.store.dtos.UpdateUserRequest;
-import com.jparkkennaby.store.dtos.UserDto;
-import com.jparkkennaby.store.entities.User;
 
 @Mapper(componentModel = "spring") // so spring is made aware and can make beans at runtime
 public interface UserMapper {

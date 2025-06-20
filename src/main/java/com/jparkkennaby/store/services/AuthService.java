@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.jparkkennaby.store.dtos.LoginRequest;
 import com.jparkkennaby.store.dtos.LoginResponse;
-import com.jparkkennaby.store.entities.User;
-import com.jparkkennaby.store.repositories.UserRepository;
+import com.jparkkennaby.store.users.User;
+import com.jparkkennaby.store.users.UserRepository;
 
 import lombok.AllArgsConstructor;
 

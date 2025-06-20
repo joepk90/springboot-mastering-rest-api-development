@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.services;
+package com.jparkkennaby.store.users;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -6,17 +6,8 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.jparkkennaby.store.dtos.ChangePasswordRequest;
-import com.jparkkennaby.store.dtos.RegisterUserRequest;
-import com.jparkkennaby.store.dtos.UpdateUserRequest;
-import com.jparkkennaby.store.dtos.UserDto;
-import com.jparkkennaby.store.entities.Role;
-import com.jparkkennaby.store.entities.User;
 import com.jparkkennaby.store.exceptions.DuplicateUserException;
 import com.jparkkennaby.store.exceptions.UserNotFoundException;
-import com.jparkkennaby.store.mappers.UserMapper;
-import com.jparkkennaby.store.repositories.UserRepository;
-
 import java.util.Set;
 
 @AllArgsConstructor

@@ -4,7 +4,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.stereotype.Component;
 
-import com.jparkkennaby.store.entities.Role;
+import com.jparkkennaby.store.users.Role;
 
 @Component
 public class AdminSecurityRules implements SecurityRules {

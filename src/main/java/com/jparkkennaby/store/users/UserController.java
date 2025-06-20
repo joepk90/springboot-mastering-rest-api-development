@@ -1,14 +1,8 @@
-package com.jparkkennaby.store.controllers;
+package com.jparkkennaby.store.users;
 
 import com.jparkkennaby.store.annoations.MaxTableSizeCheck;
-import com.jparkkennaby.store.dtos.ChangePasswordRequest;
-import com.jparkkennaby.store.dtos.RegisterUserRequest;
-import com.jparkkennaby.store.dtos.UpdateUserRequest;
-import com.jparkkennaby.store.dtos.UserDto;
-import com.jparkkennaby.store.entities.User;
 import com.jparkkennaby.store.exceptions.DuplicateUserException;
 import com.jparkkennaby.store.exceptions.UserNotFoundException;
-import com.jparkkennaby.store.services.UserService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.entities;
+package com.jparkkennaby.store.users;
 
 import jakarta.persistence.*;
 import lombok.*;
