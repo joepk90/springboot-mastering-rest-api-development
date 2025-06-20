@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.jparkkennaby.store.entities.Order;
 import com.jparkkennaby.store.entities.OrderItem;
@@ -20,22 +22,66 @@ import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
 import com.stripe.param.checkout.SessionCreateParams;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Service
 public class StripePaymentGateway implements PaymentGateway {
-    @Value("${websiteUrl}")
+
+    // TODO: create endpoints for the success/cancel urls?
+    // private String checkoutSuccessUrl = "checkout-success";
+    // private String checkoutCancelUrl = "checkout-success";
+
+    private String checkoutSuccessUrl = "/swagger-ui/index.html";
+    private String checkoutCancelUrl = "/swagger-ui/index.html";
+
+    // colon (:) means default to empty string
+    @Value("${websiteUrl:}")
     private String websiteUrl;
 
     @Value("${stripe.webhookSecretKey}")
     private String webhookSecretKey;
 
+    // hacky solution to send the user back to the api url.
+    // in real world applciation, there would be a seperate front end we could
+    // direct the user to.
+    public String getBaseUrl() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                .getRequest();
+
+        String scheme = request.getScheme(); // http / https
+        String protocol = scheme + "://";
+        String serverName = request.getServerName(); // your-service.run.app or custom domain
+
+        // localhost
+        if (serverName.equals("localhost")) {
+            int port = request.getServerPort(); // 443 / 80 / other
+            return protocol + serverName + ":" + port;
+        }
+
+        // real domain
+        return protocol + serverName;
+    }
+
+    public String getWebsiteUrl() {
+        // if website url is set in in the application yaml file use it.
+        // otherwise create the url dynamically from the request
+        if (websiteUrl.equals("")) {
+            return getBaseUrl();
+        }
+
+        return websiteUrl;
+    }
+
     @Override
     public CheckoutSession createCheckoutSession(Order order) {
+        var websiteUrl = getWebsiteUrl();
+
         try {
             // create checkout session
             var builder = SessionCreateParams.builder()
                     .setMode(SessionCreateParams.Mode.PAYMENT)
-                    .setSuccessUrl(websiteUrl + "/checkout-success?orderId=" + order.getId())
-                    .setCancelUrl(websiteUrl + "/checkout-cancel")
+                    .setSuccessUrl(websiteUrl + "/" + checkoutSuccessUrl + "?orderId=" + order.getId())
+                    .setCancelUrl(websiteUrl + "/" + checkoutCancelUrl)
                     .setPaymentIntentData(createPaymentIntent(order));
 
             order.getItems().forEach(item -> {
