@@ -14,6 +14,7 @@ import com.jparkkennaby.store.entities.Role;
 import com.jparkkennaby.store.entities.User;
 import com.jparkkennaby.store.exceptions.DuplicateUserException;
 import com.jparkkennaby.store.exceptions.UserNotFoundException;
+import com.jparkkennaby.store.factories.UserFactory;
 import com.jparkkennaby.store.mappers.UserMapper;
 import com.jparkkennaby.store.repositories.UserRepository;
 
@@ -22,6 +23,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Service
 public class UserService {
+    private final UserFactory userFactory;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
@@ -48,7 +50,7 @@ public class UserService {
         }
 
         var user = userMapper.toEntity(request);
-        user = setPassword(user, user.getPassword());
+        user = userFactory.setPassword(user, user.getPassword());
 
         // setting the role could be handled in our user mapper,
         // but it's very important so we are setting it explicitly here
@@ -79,16 +81,7 @@ public class UserService {
             throw new AccessDeniedException("Password does not match");
         }
 
-        user = setPassword(user, request.getNewPassword());
+        user = userFactory.setPassword(user, request.getNewPassword());
         userRepository.save(user);
-    }
-
-    // the setPassword method should potentially be added to the User entity.
-    // - However, will this cause any issues when loading the User entity having to
-    // instantiate the passwordEncoder?
-    // - Should this passwordEncoder be kept out of the entity?
-    public User setPassword(User user, String password) {
-        user.setPassword(passwordEncoder.encode(password));
-        return user;
     }
 }
