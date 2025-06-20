@@ -5,23 +5,21 @@ import com.jparkkennaby.store.dtos.ChangePasswordRequest;
 import com.jparkkennaby.store.dtos.RegisterUserRequest;
 import com.jparkkennaby.store.dtos.UpdateUserRequest;
 import com.jparkkennaby.store.dtos.UserDto;
-import com.jparkkennaby.store.entities.Role;
 import com.jparkkennaby.store.entities.User;
-import com.jparkkennaby.store.mappers.UserMapper;
-import com.jparkkennaby.store.repositories.UserRepository;
+import com.jparkkennaby.store.exceptions.DuplicateUserException;
+import com.jparkkennaby.store.exceptions.UserNotFoundException;
+import com.jparkkennaby.store.services.UserService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 import java.util.Map;
-import java.util.Set;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-// import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,36 +36,19 @@ import org.springframework.web.util.UriComponentsBuilder;
 @MaxTableSizeCheck(entity = User.class)
 @RequestMapping("/users")
 public class UserController {
-    private final UserRepository userRepository;
-    private final UserMapper userMapper;
-    private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
     // GetMapping just handles the GET method
     @GetMapping
     public Iterable<UserDto> getAllUsers(
             // @RequestHeader(required = false, name = "x-auth-token") String authToken,
             @RequestParam(required = false, defaultValue = "", name = "sort") String sortBy) {
-
-        // restrict allowed sort values
-        if (!Set.of("name", "email").contains(sortBy))
-            sortBy = "name"; // defult sort paramter = name
-
-        return userRepository.findAll(Sort.by(sortBy))
-                .stream()
-                .map(userMapper::toDto)
-                .toList();
+        return userService.getAllUsers(sortBy);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUser(@PathVariable Long id) {
-        var user = userRepository.findById(id).orElse(null);
-        if (user == null) {
-            // return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            return ResponseEntity.notFound().build();
-        }
-
-        // return new ResponseEntity<>(user, HttpStatus.OK);
-        return ResponseEntity.ok(userMapper.toDto(user));
+    public UserDto getUser(@PathVariable Long id) {
+        return userService.getUser(id);
     }
 
     @PostMapping
@@ -75,80 +56,54 @@ public class UserController {
             @Valid @RequestBody RegisterUserRequest request,
             UriComponentsBuilder uriBuilder) {
 
-        if (userRepository.existsByEmail(request.getEmail())) {
-            return ResponseEntity.badRequest().body(
-                    Map.of("email", "Email is already registered."));
-        }
-
-        var user = userMapper.toEntity(request);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        // setting the role could be handled in our user mapper,
-        // but it's very important so we are setting it explicitly here
-        user.setRole(Role.USER);
-
-        userRepository.save(user);
-
-        var userDto = userMapper.toDto(user);
+        var userDto = userService.registerUser(request);
 
         // works, however does not follow standard REST conventions (returns 200 and no
         // uri)
         // return ResponseEntity.ok(userDto);
 
-        // created returns a 201 and a URI (where the resource was saved too -see
-        // respone headers)
+        // created returns a 201 and a URI (where the resource was saved too - see
+        // response headers)
         var uri = uriBuilder.path("/users/{id}").buildAndExpand(userDto.getId()).toUri();
         return ResponseEntity.created(uri).body(userDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> updateUser(
+    public UserDto updateUser(
             @PathVariable(name = "id") Long id,
             @RequestBody UpdateUserRequest request) {
-
-        var user = userRepository.findById(id).orElse(null);
-
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        userMapper.update(request, user); // mutates the user object
-        userRepository.save(user);
-
-        return ResponseEntity.ok(userMapper.toDto(user));
+        return userService.updateUser(id, request);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        var user = userRepository.findById(id).orElse(null);
-
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        userRepository.delete(user);
-
-        return ResponseEntity.noContent().build();
+    public void deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
     }
 
     // using a post request, as it is an action based update
     @PostMapping("/{id}/change-password")
-    public ResponseEntity<Void> changePassword(
+    public void changePassword(
             @PathVariable Long id,
             @RequestBody ChangePasswordRequest request) {
-        var user = userRepository.findById(id).orElse(null);
+        // manual approach to returning UNAUTHORIZED response
+        // return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        }
+        userService.changePassword(id, request);
+    }
 
-        if (!user.getPassword().equals(request.getOldPassword())) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
+    @ExceptionHandler(DuplicateUserException.class)
+    public ResponseEntity<Map<String, String>> handleDuplicateUser() {
+        return ResponseEntity.badRequest().body(
+                Map.of("email", "Email is already registered."));
+    }
 
-        user.setPassword(request.getNewPassword());
-        userRepository.save(user);
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Void> handleUserNotFound() {
+        return ResponseEntity.notFound().build();
+    }
 
-        return ResponseEntity.noContent().build();
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Void> handleAccessDenied() {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 }
