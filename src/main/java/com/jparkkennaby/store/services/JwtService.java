@@ -71,11 +71,6 @@ public class JwtService {
         }
     }
 
-    public String getUserName(String token) {
-        var jwt = parseToken(token);
-        return jwt.getUserName();
-    }
-
     public Role getRole(String token) {
         var jwt = parseToken(token);
         return jwt.getRole();
