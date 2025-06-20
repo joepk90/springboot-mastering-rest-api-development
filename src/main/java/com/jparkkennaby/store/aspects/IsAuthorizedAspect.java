@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.*;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
  * Example Usage
@@ -42,18 +41,21 @@ public class IsAuthorizedAspect {
                 .orElse(null);
 
         if (request == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No request context found");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ErrorDto("No request context found"));
         }
 
         String auth = request.getHeader("Authorization");
 
         if (auth == null || !auth.startsWith("Bearer ")) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Missing or invalid Authorization header");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ErrorDto("Missing or invalid Authorization header"));
         }
 
         String token = auth.substring(7);
         if (!jwtService.validateToken(token)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid JWT token");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ErrorDto("Invalid JWT token"));
         }
 
         Role role = jwtService.getRole(token);
