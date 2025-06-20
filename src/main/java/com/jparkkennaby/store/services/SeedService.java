@@ -11,17 +11,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.github.javafaker.Faker;
-
-import com.jparkkennaby.store.entities.Category;
-import com.jparkkennaby.store.entities.Product;
-import com.jparkkennaby.store.entities.Role;
-import com.jparkkennaby.store.entities.User;
+import com.jparkkennaby.store.carts.CartRepository;
 import com.jparkkennaby.store.exceptions.DatabaseSeedingException;
-import com.jparkkennaby.store.repositories.CartRepository;
-import com.jparkkennaby.store.repositories.CategoryRepository;
-import com.jparkkennaby.store.repositories.OrderRepository;
-import com.jparkkennaby.store.repositories.ProductRepository;
-import com.jparkkennaby.store.repositories.UserRepository;
+import com.jparkkennaby.store.orders.OrderRepository;
+import com.jparkkennaby.store.products.Category;
+import com.jparkkennaby.store.products.CategoryRepository;
+import com.jparkkennaby.store.products.Product;
+import com.jparkkennaby.store.products.ProductRepository;
+import com.jparkkennaby.store.users.Role;
+import com.jparkkennaby.store.users.User;
+import com.jparkkennaby.store.users.UserRepository;
 
 import lombok.AllArgsConstructor;
 

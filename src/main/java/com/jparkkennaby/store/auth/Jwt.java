@@ -1,0 +1,37 @@
+package com.jparkkennaby.store.auth;
+
+import java.util.Date;
+
+import javax.crypto.SecretKey;
+
+import com.jparkkennaby.store.users.Role;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+
+public class Jwt {
+    private final Claims claims;
+    private final SecretKey secretKey;
+
+    public Jwt(Claims claims, SecretKey secretKey) {
+        this.claims = claims;
+        this.secretKey = secretKey;
+    }
+
+    public boolean isExpired() {
+        // if the expiration date is after the current date, the token is valid
+        return claims.getExpiration().before(new Date());
+    }
+
+    public Long getUserId() {
+        return Long.valueOf(claims.getSubject());
+    }
+
+    public Role getRole() {
+        return Role.valueOf(claims.get("role", String.class));
+    }
+
+    public String toString() {
+        return Jwts.builder().claims(claims).signWith(secretKey).compact();
+    }
+}

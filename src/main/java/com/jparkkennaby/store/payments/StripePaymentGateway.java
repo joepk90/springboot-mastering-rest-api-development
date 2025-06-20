@@ -6,9 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.jparkkennaby.store.entities.Order;
-import com.jparkkennaby.store.entities.OrderItem;
-import com.jparkkennaby.store.entities.PaymentStatus;
+import com.jparkkennaby.store.orders.Order;
+import com.jparkkennaby.store.orders.OrderItem;
+import com.jparkkennaby.store.orders.PaymentStatus;
 import com.stripe.exception.EventDataObjectDeserializationException;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;

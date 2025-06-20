@@ -1,6 +1,6 @@
 package com.jparkkennaby.store.payments;
 
-import com.jparkkennaby.store.entities.PaymentStatus;
+import com.jparkkennaby.store.orders.PaymentStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

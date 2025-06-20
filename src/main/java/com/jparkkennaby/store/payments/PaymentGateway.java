@@ -2,7 +2,7 @@ package com.jparkkennaby.store.payments;
 
 import java.util.Optional;
 
-import com.jparkkennaby.store.entities.Order;
+import com.jparkkennaby.store.orders.Order;
 
 public interface PaymentGateway {
 

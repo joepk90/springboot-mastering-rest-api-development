@@ -1,0 +1,84 @@
+package com.jparkkennaby.store.users;
+
+import lombok.AllArgsConstructor;
+
+import org.springframework.data.domain.Sort;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.Set;
+
+@AllArgsConstructor
+@Service
+public class UserService {
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
+
+    public Iterable<UserDto> getAllUsers(String sortBy) {
+        // restrict allowed sort values
+        if (!Set.of("name", "email").contains(sortBy))
+            sortBy = "name";
+
+        return userRepository.findAll(Sort.by(sortBy))
+                .stream()
+                .map(userMapper::toDto)
+                .toList();
+    }
+
+    public UserDto getUser(Long userId) {
+        var user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        return userMapper.toDto(user);
+    }
+
+    public UserDto registerUser(RegisterUserRequest request) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new DuplicateUserException();
+        }
+
+        var user = userMapper.toEntity(request);
+        user = setPassword(user, user.getPassword());
+
+        // setting the role could be handled in our user mapper,
+        // but it's very important so we are setting it explicitly here
+        user.setRole(Role.USER);
+
+        userRepository.save(user);
+
+        return userMapper.toDto(user);
+    }
+
+    public UserDto updateUser(Long userId, UpdateUserRequest request) {
+        var user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        userMapper.update(request, user); // mutates the user object
+        userRepository.save(user);
+
+        return userMapper.toDto(user);
+    }
+
+    public void deleteUser(Long userId) {
+        var user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        userRepository.delete(user);
+    }
+
+    public void changePassword(Long userId, ChangePasswordRequest request) {
+        var user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            throw new AccessDeniedException("Password does not match");
+        }
+
+        user = setPassword(user, request.getNewPassword());
+        userRepository.save(user);
+    }
+
+    // the setPassword method should potentially be added to the User entity.
+    // - However, will this cause any issues when loading the User entity having to
+    // instantiate the passwordEncoder?
+    // - Should this passwordEncoder be kept out of the entity?
+    public User setPassword(User user, String password) {
+        user.setPassword(passwordEncoder.encode(password));
+        return user;
+    }
+}
