@@ -1,13 +1,12 @@
 package com.jparkkennaby.store.users;
 
 import lombok.AllArgsConstructor;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.jparkkennaby.store.exceptions.DuplicateUserException;
-import com.jparkkennaby.store.exceptions.UserNotFoundException;
 import java.util.Set;
 
 @AllArgsConstructor

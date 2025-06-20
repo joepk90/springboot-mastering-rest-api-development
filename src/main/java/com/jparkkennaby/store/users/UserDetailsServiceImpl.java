@@ -1,4 +1,4 @@
-package com.jparkkennaby.store.services;
+package com.jparkkennaby.store.users;
 
 import java.util.Collections;
 
@@ -7,8 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import com.jparkkennaby.store.users.UserRepository;
 
 import lombok.AllArgsConstructor;
 

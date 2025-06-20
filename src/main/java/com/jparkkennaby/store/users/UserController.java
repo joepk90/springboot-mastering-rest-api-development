@@ -1,9 +1,6 @@
 package com.jparkkennaby.store.users;
 
 import com.jparkkennaby.store.annoations.MaxTableSizeCheck;
-import com.jparkkennaby.store.exceptions.DuplicateUserException;
-import com.jparkkennaby.store.exceptions.UserNotFoundException;
-
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
