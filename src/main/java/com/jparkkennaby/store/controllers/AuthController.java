@@ -16,13 +16,14 @@ import com.jparkkennaby.store.dtos.LoginRequest;
 import com.jparkkennaby.store.dtos.UserDto;
 import com.jparkkennaby.store.mappers.UserMapper;
 import com.jparkkennaby.store.services.AuthService;
+import com.jparkkennaby.store.services.JwtService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestBody;
-// import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import lombok.AllArgsConstructor;
 
@@ -33,6 +34,7 @@ public class AuthController {
     private final UserMapper userMapper;
     private final JwtConfig jwtConfig;
     private final AuthService authService;
+    private final JwtService jwtService;
 
     @GetMapping("/me")
     public ResponseEntity<UserDto> me() {
@@ -68,14 +70,15 @@ public class AuthController {
         return new JwtResponse(accessToken.toString());
     }
 
-    // @PostMapping("/validate")
-    // public boolean validate(@RequestHeader("Authorization") String authHeader) {
-    // // print intentionally committed to show filter functionality (LoggingFilter)
-    // System.out.println("Validate called");
+    // token debug endpoint
+    @PostMapping("/validate")
+    public boolean validate(@RequestHeader("Authorization") String authHeader) {
+        // print intentionally committed to show filter functionality (LoggingFilter)
+        System.out.println("Validate called");
 
-    // var token = authHeader.replace("Bearer ", "");
-    // return jwtService.validateToken(token);
-    // }
+        var token = authHeader.replace("Bearer ", "");
+        return jwtService.validateToken(token);
+    }
 
     // updates the response status to 401 (instead a 403 forbidden is returned)
     // when the user is not found or the password is incorrect

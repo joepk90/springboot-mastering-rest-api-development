@@ -57,4 +57,16 @@ public class JwtService {
                 .parseSignedClaims(token)
                 .getPayload();
     }
+
+    // debug function
+    public boolean validateToken(String token) {
+        try {
+            var claims = getClaims(token);
+
+            // if the expiration date is after the current date, the token is valid
+            return claims.getExpiration().after(new Date());
+        } catch (JwtException e) {
+            return false;
+        }
+    }
 }
