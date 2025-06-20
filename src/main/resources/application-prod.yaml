@@ -6,7 +6,8 @@ spring:
     password: ${DATABASE_PASSWORD}
 
 # made up front end client url
-websiteUrl: https://mystore.com
+# if disabled websiteUrl falls back to app base ulr (see StripePaymentGateway)
+# websiteUrl: https://mystore.com
 
 # custom attribute to force swagger to use https in prod
 swaggerUseSSL: true
