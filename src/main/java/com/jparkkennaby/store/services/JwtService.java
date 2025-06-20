@@ -69,4 +69,9 @@ public class JwtService {
             return false;
         }
     }
+
+    public String getUserName(String token) {
+        var jwt = parseToken(token);
+        return jwt.getUserName();
+    }
 }
