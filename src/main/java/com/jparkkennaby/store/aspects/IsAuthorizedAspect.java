@@ -1,6 +1,6 @@
 package com.jparkkennaby.store.aspects;
 
-import com.jparkkennaby.store.annoations.ValidateJwt;
+import com.jparkkennaby.store.annoations.IsAuthorized;
 import com.jparkkennaby.store.dtos.ErrorDto;
 import com.jparkkennaby.store.entities.Role;
 import com.jparkkennaby.store.services.JwtService;
@@ -20,21 +20,21 @@ import org.springframework.web.server.ResponseStatusException;
 /**
  * Example Usage
  * 
- * @ValidateJwt({ Role.USER })
+ * @isAuthorized({ Role.USER })
  */
 
 @Aspect
 @Component
-public class JwtValidationAspect {
+public class IsAuthorizedAspect {
 
     private final JwtService jwtService;
 
-    public JwtValidationAspect(JwtService jwtService) {
+    public IsAuthorizedAspect(JwtService jwtService) {
         this.jwtService = jwtService;
     }
 
-    @Around("@within(validateJwt) || @annotation(validateJwt)")
-    public Object validateToken(ProceedingJoinPoint pjp, ValidateJwt validateJwt) throws Throwable {
+    @Around("@within(isAuthorized) || @annotation(isAuthorized)")
+    public Object validateToken(ProceedingJoinPoint pjp, IsAuthorized isAuthorized) throws Throwable {
         HttpServletRequest request = Optional.ofNullable(RequestContextHolder.getRequestAttributes())
                 .filter(ServletRequestAttributes.class::isInstance)
                 .map(ServletRequestAttributes.class::cast)
@@ -58,7 +58,7 @@ public class JwtValidationAspect {
 
         Role role = jwtService.getRole(token);
 
-        Role[] requiredRoles = validateJwt.value();
+        Role[] requiredRoles = isAuthorized.value();
 
         boolean hasRequiredRole = Arrays.asList(requiredRoles).contains(role);
 
